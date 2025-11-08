@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>吉原研究室 昇任お祝い</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbfdff;--card:#ffffff;--muted:#556;--accent:#0b6b63}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,Meiryo;background:linear-gradient(180deg,#fbfdff,#f3f6f8);color:#06121a}
+.container{max-width:1100px;margin:24px auto;padding:18px}
+.header{display:flex;gap:16px;align-items:center}
+.logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#6c4bd6);display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+.title h1{margin:0;font-size:20px} .title p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:360px 1fr;gap:16px;margin-top:18px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 8px 28px rgba(6,18,27,0.04)}
+.paper-item{padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid transparent}
+.paper-item:hover{background:#f1f5f9;cursor:pointer}
+.bigTitle{font-weight:800;font-size:18px}
+.abstract{color:var(--muted);margin-top:8px;line-height:1.6}
+.controls{display:flex;gap:8px;margin-top:12px}
+.btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+.primary{background:linear-gradient(180deg,var(--accent),#084b44);color:white}
+.ghost{background:transparent;border:1px solid #eef3f8;color:var(--muted)}
+.comment{border-top:1px solid #eef3f8;padding-top:10px;margin-top:12px}
+.comment-item{padding:10px;border-radius:8px;border-bottom:1px dashed #eef3f8}
+.small{font-size:13px;color:var(--muted)}
+.footer{color:var(--muted);font-size:13px;margin-top:12px}
+.meta{font-size:13px;color:var(--muted);margin-top:6px}
+.projector{display:none;position:fixed;inset:0;background:linear-gradient(180deg,#051218,#05232b);color:white;z-index:90;padding:36px}
+.centerPJ{max-width:1200px;margin:0 auto}
+.copyHint{font-size:13px;color:#335}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo" aria-hidden="true">Y</div>
+    <div class="title">
+      <h1>吉原研究室 昇任お祝い</h1>
+      <p>これまでの業績と経歴を讃え、来場者のメッセージを教授に届けます。LINEで共有してご参加ください。</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <aside class="panel" aria-label="略歴と投稿">
+      <div style="font-weight:700">略歴・代表論文</div>
+      <div id="paperList" style="margin-top:10px"></div>
+
+      <div style="margin-top:14px">
+        <div style="font-weight:700">メッセージを送る（LINEで共有）</div>
+        <div class="small" style="margin-top:6px">下のフォームから教授へメッセージを送れます。教授はスプレッドシートでリアルタイム確認可能です。</div>
+        <div style="margin-top:10px">
+          <!-- ★ ここを作成したGoogleフォームの埋め込みURL（iframe src）に置き換えてください -->
+          <iframe id="gform" src="https://docs.google.com/forms/d/e/1FAIpQLSdUbXyM5QFIRit6YcHe_-1VC_g1H6oTV6zoXubc11jE7kXcZg/viewform?embedded=true" width="100%" height="340" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        </div>
+
+        <div style="margin-top:10px" class="meta">
+          フォームの作り方: Google フォームで「名前（任意）」「メッセージ（必須）」を作成し、回答先をスプレッドシートにリンクしてください。スプレッドシートを「ファイル→ウェブに公開」で CSV 出力にしてください。その CSV URL を下の設定に貼ります。
+        </div>
+      </div>
+    </aside>
+
+    <main class="panel" aria-label="表示とコメント">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="bigTitle" id="mainTitle">読み込み中…</div>
+          <div class="small" id="mainSub">論文要旨・略歴を表示します</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button id="projectorBtn" class="btn ghost">プロジェクタ表示</button>
+        </div>
+      </div>
+
+      <div class="abstract" id="mainAbstract">要旨がここに表示されます。会場向けに1〜2文に要約しました。</div>
+
+      <div class="controls">
+        <button id="prev" class="btn ghost">前へ</button>
+        <button id="next" class="btn primary">次へ</button>
+        <button id="highlight" class="btn primary">強調表示</button>
+      </div>
+
+      <div class="comment" id="commentsArea">
+        <div style="font-weight:700">来場者のメッセージ</div>
+        <div id="commentsList" style="margin-top:8px">読み込み中…</div>
+        <div class="copyHint" style="margin-top:8px">教授用: スプレッドシートの共有リンク（編集または閲覧）を教授に直接送ってください。教授はスプレッドシートでリアルタイムに確認できます。</div>
+      </div>
+
+      <div class="footer">公開URLをLINEで共有して、来場者からの祝辞を受け取ってください。</div>
+    </main>
+  </div>
+</div>
+
+<div id="projector" class="projector" role="dialog" aria-hidden="true">
+  <div class="centerPJ">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:700">吉原研究室 昇任お祝い</div>
+      <div><button id="closePJ" class="btn ghost" style="color:white">閉じる</button></div>
+    </div>
+    <div style="margin-top:40px">
+      <div style="font-size:44px;font-weight:800" id="pjTitle">タイトル</div>
+      <div style="margin-top:18px;font-size:20px;color:#dffbe6" id="pjAbstract">要旨が大きく表示されます</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===========================
+  置き換える箇所
+  1) GOOGLE_FORM_EMBED_URL を Google フォームの埋め込み iframe の src に置き換える
+     （フォーム > 送信 > < > 埋め込み にある src を貼る）
+  2) SHEET_CSV_URL をスプレッドシートを「ファイル→ウェブに公開」で得られる CSV の URL に置き換える
+     例: https://docs.google.com/spreadsheets/d/e/FILE_ID/pub?output=csv
+=========================== */
+
+/* --- 編集ここから --- */
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/u/0/d/1tmMjoO2hw683DdeivF9HZniscPe__f7CvVcO9C1kF4U/htmlview#gid=1181094571";
+/* 代表論文と短い要旨（会場で読み上げられるよう1〜2行で整えました） */
+const papers = [
+  {title:"Ultrafast energy transfer in molecular assemblies (2021)", abstract:"高時間分解能分光で分子集合体内の超高速エネルギー移動を明らかにし、光機能材料設計に道を拓いた研究です。"},
+  {title:"Photoinduced charge separation using azobenzene derivatives (2019)", abstract:"アゾベンゼン誘導体を用いた光誘起電荷分離の効率化を示し、分子デバイス応用の可能性を示しました。"},
+  {title:"Coherent control of exciton dynamics (2017)", abstract:"レーザー位相制御により励起子のダイナミクスを操作し、量子制御の実証に貢献しました。"},
+  {title:"Spectroscopic signatures of conical intersections (2015)", abstract:"円錐交差がもたらす分光学的指紋を詳細に解析し、光化学反応理解を深化させました。"},
+  {title:"Design principles for photoactive supramolecular systems (2013)", abstract:"超分子系における光機能設計原理を提示し、材料設計の指針を与えました。"},
+  {title:"Early-career contributions to molecular photochemistry (2010)", abstract:"初期研究から一貫して分子光化学の基礎と応用の橋渡しを行い、若手研究者の育成にも尽力しました。"}
+];
+/* --- 編集ここまで --- */
+
+const listEl = document.getElementById('paperList');
+const mainTitle = document.getElementById('mainTitle');
+const mainAbstract = document.getElementById('mainAbstract');
+const commentsList = document.getElementById('commentsList');
+let idx = 0;
+
+/* render papers list */
+function renderPapers(){
+  listEl.innerHTML = '';
+  papers.forEach((p,i)=>{
+    const d = document.createElement('div');
+    d.className = 'paper-item';
+    d.tabIndex = 0;
+    d.innerHTML = `<div style="font-weight:700">${escapeHtml(p.title)}</div><div class="small" style="margin-top:6px">${escapeHtml(p.abstract)}</div>`;
+    d.onclick = ()=>{ idx=i; show(i); };
+    d.onkeypress = (e)=>{ if(e.key==='Enter') { idx=i; show(i); }};
+    listEl.appendChild(d);
+  });
+  show(0);
+}
+function show(i){
+  const p = papers[i];
+  mainTitle.textContent = p.title;
+  mainAbstract.textContent = p.abstract;
+  document.getElementById('pjTitle').textContent = p.title;
+  document.getElementById('pjAbstract').textContent = p.abstract;
+}
+
+/* navigation */
+document.getElementById('next').onclick = ()=>{ idx=(idx+1)%papers.length; show(idx); };
+document.getElementById('prev').onclick = ()=>{ idx=(idx-1+papers.length)%papers.length; show(idx); };
+
+/* projector */
+document.getElementById('projectorBtn').onclick = ()=>{ document.getElementById('projector').style.display='block'; };
+document.getElementById('closePJ').onclick = ()=>{ document.getElementById('projector').style.display='none'; };
+
+/* highlight: projector を開く */
+document.getElementById('highlight').onclick = ()=>{ document.getElementById('projector').style.display='block'; };
+
+/* fetch comments from CSV published sheet (simple parser) */
+async function fetchComments(){
+  if(!SHEET_CSV_URL || SHEET_CSV_URL.includes('SHEET_CSV_URL')){ commentsList.innerHTML = '<div class="small">コメント用CSVの URL を設定してください（index.html 内の SHEET_CSV_URL を編集）。</div>'; return; }
+  try{
+    const res = await fetch(SHEET_CSV_URL);
+    const txt = await res.text();
+    // CSV を簡易パース（カンマ区切り、ダブルクオート簡易除去）
+    const rows = txt.trim().split('\n').map(r=>parseCSVLine(r));
+    if(rows.length<=1){ commentsList.innerHTML = '<div class="small">まだメッセージはありません。</div>'; return; }
+    const header = rows[0].map(h=>h.toLowerCase());
+    const nameIdx = header.findIndex(h=>h.includes('name')||h.includes('お名前')||h.includes('氏名')) ;
+    const msgIdx = header.findIndex(h=>h.includes('message')||h.includes('メッセージ')||h.includes('comment')||h.includes('ご意見')) ;
+    const data = rows.slice(1).map(r=>{
+      const name = (nameIdx>=0 && r[nameIdx]) ? r[nameIdx] : '匿名';
+      const msg = (msgIdx>=0 && r[msgIdx]) ? r[msgIdx] : r.slice(1).join(' ');
+      return {name, msg};
+    });
+    renderComments(data);
+  }catch(e){
+    console.error(e);
+    commentsList.innerHTML = '<div class="small">コメントの取得に失敗しました（CSV URL を確認してください）。</div>';
+  }
+}
+function renderComments(arr){
+  if(!arr.length){ commentsList.innerHTML = '<div class="small">まだメッセージはありません。</div>'; return; }
+  commentsList.innerHTML = arr.map(c=>`<div class="comment-item"><div style="font-weight:700">${escapeHtml(c.name)}</div><div class="small" style="margin-top:6px">${escapeHtml(c.msg)}</div></div>`).join('');
+}
+function parseCSVLine(line){
+  // 非完全なCSVパーサだが Google 公開CSV には十分
+  const parts = [];
+  let cur=''; let inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='\"'){ inQ=!inQ; continue; }
+    if(ch===',' && !inQ){ parts.push(cur); cur=''; continue; }
+    cur+=ch;
+  }
+  parts.push(cur);
+  return parts.map(s=>s.trim());
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* init */
+renderPapers();
+fetchComments();
+setInterval(fetchComments, 8000);
+
+/* keyboard nav */
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='ArrowRight') { idx=(idx+1)%papers.length; show(idx); }
+  if(e.key==='ArrowLeft') { idx=(idx-1+papers.length)%papers.length; show(idx); }
+  if(e.key==='Escape') document.getElementById('projector').style.display='none';
+});
+</script>
+</body>
+</html>
