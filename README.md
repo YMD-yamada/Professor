@@ -20,6 +20,18 @@
 
 静的HTMLのみです。`index.html` をブラウザで開くだけで利用できます。
 
+## 公開（GitHub Pages）
+
+このリポジトリには `.github/workflows/deploy-pages.yml` を追加してあり、`main` ブランチ更新時に GitHub Pages へ自動デプロイされます。
+
+1. GitHub リポジトリの **Settings > Pages** を開く
+2. Source は **GitHub Actions** を選択
+3. `main` へマージ後、Actions の `Deploy static site to GitHub Pages` が成功すれば公開完了
+
+公開URL例:
+
+- `https://<your-account>.github.io/<repository-name>/`
+
 ## 運用フロー（外部サービスなし）
 
 1. 第三者が「第三者向け」画面でメッセージ入力

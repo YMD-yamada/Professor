@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="群馬大学 吉原利忠教授の研究紹介ポータル。最新文献の自動更新とメッセージ共有機能を備えた公開ページ。" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
 <title>群馬大学 吉原利忠教授 | 研究紹介・メッセージポータル</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -324,19 +326,20 @@ body[data-mode="professor"] .public-only { display: none; }
         <form id="messageForm">
           <div class="field">
             <label for="senderNameInput">お名前（任意）</label>
-            <input id="senderNameInput" placeholder="例: 山田 太郎" />
+            <input id="senderNameInput" maxlength="80" placeholder="例: 山田 太郎" />
           </div>
           <div class="field">
             <label for="senderAffiliationInput">所属（任意）</label>
-            <input id="senderAffiliationInput" placeholder="例: 群馬大学 理工学府" />
+            <input id="senderAffiliationInput" maxlength="120" placeholder="例: 群馬大学 理工学府" />
           </div>
           <div class="field">
             <label for="messageInput">メッセージ（必須）</label>
-            <textarea id="messageInput" required placeholder="教授へのメッセージを入力してください。"></textarea>
+            <textarea id="messageInput" maxlength="2000" required placeholder="教授へのメッセージを入力してください（最大2000文字）。"></textarea>
+            <div class="sub">公開共有されるため、電話番号・住所など個人情報の記載は避けてください。</div>
           </div>
           <div class="btn-row">
             <button type="submit" class="primary">この端末で送信</button>
-            <button type="button" id="copyShareLinkBtn" class="ghost">共有リンクをコピー</button>
+            <button type="button" id="copyShareLinkBtn" class="ghost">共有リンク/コードをコピー</button>
           </div>
           <div id="messageFormStatus" class="status"></div>
           <div class="code-box" id="shareLinkBox">共有リンクはここに表示されます。</div>
@@ -352,10 +355,10 @@ body[data-mode="professor"] .public-only { display: none; }
 
       <section class="card professor-only">
         <h2>教授向け管理</h2>
-        <p class="sub">リンク経由の取り込み、バックアップ保存、削除が可能です。</p>
+        <p class="sub">共有リンク/コード取り込み、バックアップ保存、削除が可能です。</p>
         <div class="field">
           <label for="importInput">共有リンクまたは共有コードを貼り付け</label>
-          <textarea id="importInput" placeholder="例: https://.../?mode=professor&import=...."></textarea>
+          <textarea id="importInput" maxlength="12000" placeholder="例: https://.../?mode=professor&import=...."></textarea>
         </div>
         <div class="btn-row">
           <button type="button" id="importBtn" class="primary">取り込む</button>
@@ -383,6 +386,10 @@ const CONFIG = {
   worksRefreshMs: 15 * 60 * 1000,
   maxWorks: 12,
   maxMessages: 200,
+  maxNameLength: 80,
+  maxAffiliationLength: 120,
+  maxMessageLength: 2000,
+  maxImportTokenLength: 12000,
   openAlexMailto: "research-portal@example.com"
 };
 
@@ -501,9 +508,9 @@ function bindMessageForm() {
 
 function collectMessageDraft() {
   return {
-    name: document.getElementById("senderNameInput").value.trim() || "匿名",
-    affiliation: document.getElementById("senderAffiliationInput").value.trim(),
-    message: document.getElementById("messageInput").value.trim()
+    name: sanitizeText(document.getElementById("senderNameInput").value, CONFIG.maxNameLength) || "匿名",
+    affiliation: sanitizeText(document.getElementById("senderAffiliationInput").value, CONFIG.maxAffiliationLength),
+    message: sanitizeText(document.getElementById("messageInput").value, CONFIG.maxMessageLength, true)
   };
 }
 
@@ -636,18 +643,20 @@ function importFromRawString(raw) {
 
 function importPayload(token, source) {
   try {
+    if (!token || token.length > CONFIG.maxImportTokenLength) return false;
     const jsonText = decodeBase64Url(token);
     const payload = JSON.parse(jsonText);
     if (!payload || !payload.message) return false;
     const entry = {
       id: payload.id || ("msg-" + Date.now().toString(36) + "-import"),
-      name: payload.name || "匿名",
-      affiliation: payload.affiliation || "",
-      message: payload.message,
+      name: sanitizeText(payload.name || "匿名", CONFIG.maxNameLength),
+      affiliation: sanitizeText(payload.affiliation || "", CONFIG.maxAffiliationLength),
+      message: sanitizeText(payload.message, CONFIG.maxMessageLength, true),
       source: source,
       createdAt: payload.createdAt || new Date().toISOString(),
       createdLabel: payload.createdLabel || formatDateTime(new Date(payload.createdAt || Date.now()))
     };
+    if (!entry.message) return false;
     addMessage(entry);
     return true;
   } catch (error) {
@@ -667,8 +676,14 @@ function buildShareLinkFromEntry(entry) {
   };
   const url = new URL(location.href);
   url.searchParams.set("mode", "professor");
-  url.searchParams.set("import", encodeBase64Url(JSON.stringify(payload)));
-  return url.toString();
+  const token = encodeBase64Url(JSON.stringify(payload));
+  url.searchParams.set("import", token);
+  const nextUrl = url.toString();
+  if (nextUrl.length > 1800) {
+    // URL length overflow対策: 長文時は共有コードを使う
+    return "共有コード:\n" + token;
+  }
+  return nextUrl;
 }
 
 function encodeBase64Url(text) {
@@ -838,6 +853,12 @@ function csvEscape(value) {
   const text = String(value == null ? "" : value);
   if (/[",\n]/.test(text)) return "\"" + text.replace(/"/g, "\"\"") + "\"";
   return text;
+}
+
+function sanitizeText(value, maxLength, allowMultiline) {
+  const raw = String(value == null ? "" : value).replace(/\u0000/g, "");
+  const normalized = allowMultiline ? raw.replace(/\r/g, "") : raw.replace(/[\r\n\t]/g, " ");
+  return normalized.trim().slice(0, maxLength);
 }
 
 function setStatus(id, message, kind) {
