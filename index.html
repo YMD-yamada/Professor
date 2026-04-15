@@ -437,7 +437,7 @@ const RESEARCH_THEMES = [
   }
 ];
 
-const OPENALEX_UA = "GunmaProfessorProfile/1.0 (mailto:research-portal@example.com)";
+const OPENALEX_MAILTO = "research-portal@example.com";
 
 init();
 
@@ -621,9 +621,10 @@ function renderMetrics(author) {
 }
 
 async function fetchOpenAlexAuthor() {
-  const url = "https://api.openalex.org/authors/" + encodeURIComponent(state.config.openAlexAuthorId);
+  const url = "https://api.openalex.org/authors/" + encodeURIComponent(state.config.openAlexAuthorId) +
+    "?mailto=" + encodeURIComponent(OPENALEX_MAILTO);
   try {
-    const response = await fetch(url, { headers: { "User-Agent": OPENALEX_UA } });
+    const response = await fetch(url);
     if (!response.ok) throw new Error("OpenAlex author fetch failed");
     return await response.json();
   } catch (error) {
@@ -634,9 +635,10 @@ async function fetchOpenAlexAuthor() {
 
 async function fetchOpenAlexWorks() {
   const url = "https://api.openalex.org/works?filter=author.id:" + encodeURIComponent(state.config.openAlexAuthorId) +
-    "&sort=publication_date:desc&per-page=" + encodeURIComponent(String(state.config.maxWorks));
+    "&sort=publication_date:desc&per-page=" + encodeURIComponent(String(state.config.maxWorks)) +
+    "&mailto=" + encodeURIComponent(OPENALEX_MAILTO);
   try {
-    const response = await fetch(url, { headers: { "User-Agent": OPENALEX_UA } });
+    const response = await fetch(url);
     if (!response.ok) throw new Error("OpenAlex works fetch failed");
     const payload = await response.json();
     return (payload.results || []).map((item) => {
@@ -662,9 +664,10 @@ async function fetchCrossrefWorks() {
   if (!state.config.crossrefQuery) return [];
   const url = "https://api.crossref.org/works?query=" + encodeURIComponent(state.config.crossrefQuery) +
     "&rows=" + encodeURIComponent(String(state.config.maxWorks)) +
-    "&sort=published&order=desc";
+    "&sort=published&order=desc" +
+    "&mailto=" + encodeURIComponent(OPENALEX_MAILTO);
   try {
-    const response = await fetch(url, { headers: { "User-Agent": OPENALEX_UA } });
+    const response = await fetch(url);
     if (!response.ok) throw new Error("Crossref fetch failed");
     const payload = await response.json();
     return (payload.message && payload.message.items ? payload.message.items : []).map((item) => {
