@@ -1,225 +1,903 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>吉原研究室 昇任お祝い</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>群馬大学 吉原利忠教授 | 研究紹介ポータル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
 <style>
-:root{--bg:#fbfdff;--card:#ffffff;--muted:#556;--accent:#0b6b63}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,Meiryo;background:linear-gradient(180deg,#fbfdff,#f3f6f8);color:#06121a}
-.container{max-width:1100px;margin:24px auto;padding:18px}
-.header{display:flex;gap:16px;align-items:center}
-.logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#6c4bd6);display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
-.title h1{margin:0;font-size:20px} .title p{margin:6px 0 0;color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:360px 1fr;gap:16px;margin-top:18px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.panel{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 8px 28px rgba(6,18,27,0.04)}
-.paper-item{padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid transparent}
-.paper-item:hover{background:#f1f5f9;cursor:pointer}
-.bigTitle{font-weight:800;font-size:18px}
-.abstract{color:var(--muted);margin-top:8px;line-height:1.6}
-.controls{display:flex;gap:8px;margin-top:12px}
-.btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
-.primary{background:linear-gradient(180deg,var(--accent),#084b44);color:white}
-.ghost{background:transparent;border:1px solid #eef3f8;color:var(--muted)}
-.comment{border-top:1px solid #eef3f8;padding-top:10px;margin-top:12px}
-.comment-item{padding:10px;border-radius:8px;border-bottom:1px dashed #eef3f8}
-.small{font-size:13px;color:var(--muted)}
-.footer{color:var(--muted);font-size:13px;margin-top:12px}
-.meta{font-size:13px;color:var(--muted);margin-top:6px}
-.projector{display:none;position:fixed;inset:0;background:linear-gradient(180deg,#051218,#05232b);color:white;z-index:90;padding:36px}
-.centerPJ{max-width:1200px;margin:0 auto}
-.copyHint{font-size:13px;color:#335}
+:root {
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --text: #13293d;
+  --muted: #54708b;
+  --accent: #125d98;
+  --accent-strong: #0d3f66;
+  --line: #d8e4ef;
+  --ok: #0d9276;
+  --warn: #bc5f11;
+  --radius: 16px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top right, #e9f3ff, var(--bg) 45%);
+  line-height: 1.6;
+}
+a { color: var(--accent); }
+.shell { max-width: 1180px; margin: 0 auto; padding: 20px 16px 56px; }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+.mode-switch {
+  display: inline-flex;
+  background: #eaf1f8;
+  border-radius: 999px;
+  padding: 4px;
+}
+.mode-switch button {
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #335;
+}
+.mode-switch button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--accent-strong);
+  box-shadow: 0 2px 8px rgba(16, 48, 76, 0.13);
+}
+.hero {
+  margin-top: 14px;
+  background: linear-gradient(135deg, #0f4f7f, #1f7a8c);
+  border-radius: 24px;
+  color: #eff8ff;
+  padding: 22px;
+  display: grid;
+  gap: 12px;
+}
+.hero h1 {
+  margin: 4px 0 0;
+  font-size: clamp(23px, 4vw, 34px);
+  line-height: 1.25;
+}
+.hero p { margin: 0; color: #dbedf8; }
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.hero-stat {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 12px;
+  padding: 10px;
+}
+.hero-stat .k { font-size: 11px; color: #d4ecff; }
+.hero-stat .v { font-size: 20px; font-weight: 800; margin-top: 2px; }
+.layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 28px rgba(15, 56, 89, 0.08);
+  padding: 16px;
+}
+.card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.sub {
+  color: var(--muted);
+  margin-top: 4px;
+  font-size: 13px;
+}
+.stack { display: grid; gap: 12px; }
+.timeline {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+.timeline li { padding-left: 4px; }
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.theme {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
+  background: #f9fcff;
+}
+.theme h3 {
+  margin: 0;
+  font-size: 15px;
+}
+.theme p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.works-list { display: grid; gap: 10px; margin-top: 10px; }
+.work-item {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  padding: 10px;
+  background: #fff;
+}
+.work-item h3 { margin: 0; font-size: 15px; line-height: 1.45; }
+.work-meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  border: 1px solid #cae0f3;
+  color: #2d5877;
+  background: #f0f8ff;
+}
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+button, .button-link {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+}
+.primary {
+  background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+  color: #fff;
+}
+.ghost {
+  background: #fff;
+  border-color: var(--line);
+  color: var(--text);
+}
+.status { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.status .ok { color: var(--ok); font-weight: 700; }
+.status .warn { color: var(--warn); font-weight: 700; }
+form .field { display: grid; gap: 6px; margin-top: 9px; }
+label { font-size: 13px; color: var(--muted); font-weight: 700; }
+input, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 10px;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+}
+textarea { min-height: 76px; resize: vertical; }
+.messages-list { display: grid; gap: 8px; margin-top: 8px; }
+.message {
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  padding: 9px;
+  background: #fbfdff;
+}
+.message .name { font-size: 13px; font-weight: 700; }
+.message .meta { color: var(--muted); font-size: 11px; }
+.sources { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+.embed-wrap {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+iframe { width: 100%; border: 0; min-height: 430px; }
+.footer {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.professor-only { display: none; }
+body[data-mode="professor"] .professor-only { display: block; }
+body[data-mode="professor"] .public-only { display: none; }
+
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .hero-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .theme-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
-<body>
-<div class="container">
-  <div class="header">
-    <div class="logo" aria-hidden="true">Y</div>
-    <div class="title">
-      <h1>吉原研究室 昇任お祝い</h1>
-      <p>これまでの業績と経歴を讃え、来場者のメッセージを教授に届けます。LINEで共有してご参加ください。</p>
+<body data-mode="public">
+<div class="shell">
+  <div class="topbar" aria-label="ページモード切替">
+    <div class="badge">群馬大学大学院理工学府 / 吉原利忠教授 紹介ポータル</div>
+    <div class="mode-switch" role="group" aria-label="利用者モード切替">
+      <button id="publicModeBtn" type="button" aria-pressed="true">第三者向けページ</button>
+      <button id="professorModeBtn" type="button" aria-pressed="false">教授向け運用ページ</button>
     </div>
   </div>
 
-  <div class="grid">
-    <aside class="panel" aria-label="略歴と投稿">
-      <div style="font-weight:700">略歴・代表論文</div>
-      <div id="paperList" style="margin-top:10px"></div>
+  <section class="hero" aria-label="教授紹介ヘッダー">
+    <div class="badge">光化学・バイオイメージング / 最新文献は自動更新</div>
+    <h1>吉原 利忠 教授（Toshitada YOSHIHARA）</h1>
+    <p>
+      群馬大学大学院理工学府 物質・環境部門 教授。光と物質の相互作用を分子レベルで解明し、
+      生体内の酸素や脂質を可視化する発光プローブ開発を推進。
+    </p>
+    <div class="hero-grid">
+      <div class="hero-stat"><div class="k">OpenAlex 掲載論文数</div><div class="v" id="worksCount">--</div></div>
+      <div class="hero-stat"><div class="k">被引用数</div><div class="v" id="citationCount">--</div></div>
+      <div class="hero-stat"><div class="k">h-index</div><div class="v" id="hIndex">--</div></div>
+      <div class="hero-stat"><div class="k">最終同期</div><div class="v" id="lastSync" style="font-size:14px">未同期</div></div>
+    </div>
+  </section>
 
-      <div style="margin-top:14px">
-        <div style="font-weight:700">メッセージを送る（LINEで共有）</div>
-        <div class="small" style="margin-top:6px">下のフォームから教授へメッセージを送れます。教授はスプレッドシートでリアルタイム確認可能です。</div>
-        <div style="margin-top:10px">
-          <!-- ★ ここを作成したGoogleフォームの埋め込みURL（iframe src）に置き換えてください -->
-          <iframe id="gform" src="https://docs.google.com/forms/d/e/1FAIpQLSdUbXyM5QFIRit6YcHe_-1VC_g1H6oTV6zoXubc11jE7kXcZg/viewform?embedded=true" width="100%" height="340" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+  <div class="layout">
+    <main class="stack">
+      <section class="card">
+        <h2>教授プロフィール</h2>
+        <p class="sub">公的ページをベースにした要約。第三者が短時間で専門性を把握できる構成。</p>
+        <div class="theme-grid" style="margin-top:10px">
+          <article class="theme">
+            <h3>専門キーワード</h3>
+            <p>光化学、バイオイメージング、りん光性材料、酸素センシング、機能性発光分子。</p>
+          </article>
+          <article class="theme">
+            <h3>研究の社会的意義</h3>
+            <p>がんや虚血関連病態など、酸素状態が重要となる生命現象の可視化・診断技術へ展開。</p>
+          </article>
         </div>
+      </section>
 
-        <div style="margin-top:10px" class="meta">
-          フォームの作り方: Google フォームで「名前（任意）」「メッセージ（必須）」を作成し、回答先をスプレッドシートにリンクしてください。スプレッドシートを「ファイル→ウェブに公開」で CSV 出力にしてください。その CSV URL を下の設定に貼ります。
+      <section class="card">
+        <h2>経歴ハイライト</h2>
+        <ul class="timeline" id="careerTimeline"></ul>
+      </section>
+
+      <section class="card">
+        <h2>研究テーマ</h2>
+        <div class="theme-grid" id="themeGrid"></div>
+      </section>
+
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap">
+          <div>
+            <h2>最新の関連文献（自動取得）</h2>
+            <p class="sub">OpenAlex + Crossref から取得。重複除去して新しい順に表示。</p>
+          </div>
+          <div class="btn-row">
+            <button id="refreshWorksBtn" type="button" class="ghost">文献を再取得</button>
+          </div>
         </div>
-      </div>
-    </aside>
+        <div class="status" id="worksStatus">文献情報を読み込み中...</div>
+        <div class="works-list" id="worksList" aria-live="polite"></div>
+      </section>
 
-    <main class="panel" aria-label="表示とコメント">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div class="bigTitle" id="mainTitle">読み込み中…</div>
-          <div class="small" id="mainSub">論文要旨・略歴を表示します</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button id="projectorBtn" class="btn ghost">プロジェクタ表示</button>
-        </div>
-      </div>
-
-      <div class="abstract" id="mainAbstract">要旨がここに表示されます。会場向けに1〜2文に要約しました。</div>
-
-      <div class="controls">
-        <button id="prev" class="btn ghost">前へ</button>
-        <button id="next" class="btn primary">次へ</button>
-        <button id="highlight" class="btn primary">強調表示</button>
-      </div>
-
-      <div class="comment" id="commentsArea">
-        <div style="font-weight:700">来場者のメッセージ</div>
-        <div id="commentsList" style="margin-top:8px">読み込み中…</div>
-        <div class="copyHint" style="margin-top:8px">教授用: スプレッドシートの共有リンク（編集または閲覧）を教授に直接送ってください。教授はスプレッドシートでリアルタイムに確認できます。</div>
-      </div>
-
-      <div class="footer">公開URLをLINEで共有して、来場者からの祝辞を受け取ってください。</div>
+      <section class="card">
+        <h2>参考文献・一次情報ソース</h2>
+        <p class="sub">プロフィール要約の根拠として利用したページです。</p>
+        <ul class="sources">
+          <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/" target="_blank" rel="noopener noreferrer">分子光化学研究室（吉原研究室）公式サイト</a></li>
+          <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/people/" target="_blank" rel="noopener noreferrer">メンバー・経歴（公式）</a></li>
+          <li><a href="https://researchers.st.gunma-u.ac.jp/953/" target="_blank" rel="noopener noreferrer">群馬大学 教員・研究紹介（吉原利忠）</a></li>
+          <li><a href="https://researchmap.jp/read0139783" target="_blank" rel="noopener noreferrer">researchmap（吉原利忠）</a></li>
+          <li><a href="https://scholar.google.com/scholar?q=Toshitada+Yoshihara" target="_blank" rel="noopener noreferrer">Google Scholar 検索</a></li>
+          <li><a href="https://api.openalex.org/authors/A5069986511" target="_blank" rel="noopener noreferrer">OpenAlex Author API（最新業績の取得元）</a></li>
+        </ul>
+      </section>
     </main>
-  </div>
-</div>
 
-<div id="projector" class="projector" role="dialog" aria-hidden="true">
-  <div class="centerPJ">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div style="font-weight:700">吉原研究室 昇任お祝い</div>
-      <div><button id="closePJ" class="btn ghost" style="color:white">閉じる</button></div>
-    </div>
-    <div style="margin-top:40px">
-      <div style="font-size:44px;font-weight:800" id="pjTitle">タイトル</div>
-      <div style="margin-top:18px;font-size:20px;color:#dffbe6" id="pjAbstract">要旨が大きく表示されます</div>
-    </div>
+    <aside class="stack">
+      <section class="card public-only">
+        <h2>吉原教授へメッセージ</h2>
+        <p class="sub">来訪者向けフォーム。教授モードでフォームURLを設定すると表示されます。</p>
+        <div id="formPlaceholder" class="status warn">教授モードで Googleフォーム埋め込みURL を設定してください。</div>
+        <div id="formWrap" class="embed-wrap" hidden>
+          <iframe id="visitorFormFrame" title="吉原教授へのメッセージフォーム"></iframe>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>最近のメッセージ</h2>
+        <p class="sub">公開済みGoogleスプレッドシートCSVから自動反映。</p>
+        <div class="status" id="messageStatus">メッセージを読み込み中...</div>
+        <div class="messages-list" id="messageList"></div>
+      </section>
+
+      <section class="card professor-only">
+        <h2>教授向け 運用ダッシュボード</h2>
+        <p class="sub">このページでデータ連携設定を保存すると、以後は自動更新で運用できます。</p>
+        <form id="settingsForm">
+          <div class="field">
+            <label for="openAlexAuthorInput">OpenAlex Author ID</label>
+            <input id="openAlexAuthorInput" placeholder="例: A5069986511" />
+          </div>
+          <div class="field">
+            <label for="crossrefQueryInput">Crossref 補助検索クエリ</label>
+            <input id="crossrefQueryInput" placeholder="例: Toshitada Yoshihara oxygen imaging" />
+          </div>
+          <div class="field">
+            <label for="formUrlInput">Googleフォーム埋め込みURL</label>
+            <input id="formUrlInput" placeholder="https://docs.google.com/forms/.../viewform?embedded=true" />
+          </div>
+          <div class="field">
+            <label for="sheetCsvInput">GoogleスプレッドシートURLまたはCSV URL</label>
+            <input id="sheetCsvInput" placeholder="https://docs.google.com/spreadsheets/.../edit#gid=0" />
+          </div>
+          <div class="field">
+            <label for="refreshMinutesInput">文献更新間隔（分）</label>
+            <input id="refreshMinutesInput" type="number" min="5" max="120" />
+          </div>
+          <div class="field">
+            <label for="refreshSecondsInput">メッセージ更新間隔（秒）</label>
+            <input id="refreshSecondsInput" type="number" min="10" max="300" />
+          </div>
+          <div class="btn-row" style="margin-top:12px">
+            <button type="submit" class="primary">設定を保存</button>
+            <button type="button" id="resetSettingsBtn" class="ghost">初期値へ戻す</button>
+            <button type="button" id="copyPublicUrlBtn" class="ghost">第三者向けURLをコピー</button>
+          </div>
+          <div id="settingsFeedback" class="status"></div>
+        </form>
+      </section>
+
+      <section class="card professor-only">
+        <h2>運用メモ</h2>
+        <ul class="sources">
+          <li>フォーム回答先シートは「ファイル → 共有 → ウェブに公開」を有効化。</li>
+          <li>スプレッドシートURLは /edit 形式でも入力可（自動でCSV化）。</li>
+          <li>このページは設定をブラウザのローカル保存で保持します。</li>
+        </ul>
+      </section>
+    </aside>
   </div>
+
+  <p class="footer">
+    本ページは「第三者向け紹介」と「教授向け運用」を同一画面で切り替え可能にした構成です。
+    公的情報と文献APIから定期同期することで、情報鮮度を保ちます。
+  </p>
 </div>
 
 <script>
-/* ===========================
-  置き換える箇所
-  1) GOOGLE_FORM_EMBED_URL を Google フォームの埋め込み iframe の src に置き換える
-     （フォーム > 送信 > < > 埋め込み にある src を貼る）
-  2) SHEET_CSV_URL をスプレッドシートを「ファイル→ウェブに公開」で得られる CSV の URL に置き換える
-     例: https://docs.google.com/spreadsheets/d/e/FILE_ID/pub?output=csv
-=========================== */
+const DEFAULT_CONFIG = {
+  mode: "public",
+  openAlexAuthorId: "A5069986511",
+  crossrefQuery: "Toshitada Yoshihara Gunma University oxygen imaging iridium",
+  googleFormEmbedUrl: "",
+  sheetCsvUrl: "",
+  publicationRefreshMinutes: 15,
+  messageRefreshSeconds: 45,
+  maxWorks: 12
+};
 
-/* --- 編集ここから --- */
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/u/0/d/1tmMjoO2hw683DdeivF9HZniscPe__f7CvVcO9C1kF4U/htmlview#gid=1181094571";
-/* 代表論文と短い要旨（会場で読み上げられるよう1〜2行で整えました） */
-const papers = [
-  {title:"Ultrafast energy transfer in molecular assemblies (2021)", abstract:"高時間分解能分光で分子集合体内の超高速エネルギー移動を明らかにし、光機能材料設計に道を拓いた研究です。"},
-  {title:"Photoinduced charge separation using azobenzene derivatives (2019)", abstract:"アゾベンゼン誘導体を用いた光誘起電荷分離の効率化を示し、分子デバイス応用の可能性を示しました。"},
-  {title:"Coherent control of exciton dynamics (2017)", abstract:"レーザー位相制御により励起子のダイナミクスを操作し、量子制御の実証に貢献しました。"},
-  {title:"Spectroscopic signatures of conical intersections (2015)", abstract:"円錐交差がもたらす分光学的指紋を詳細に解析し、光化学反応理解を深化させました。"},
-  {title:"Design principles for photoactive supramolecular systems (2013)", abstract:"超分子系における光機能設計原理を提示し、材料設計の指針を与えました。"},
-  {title:"Early-career contributions to molecular photochemistry (2010)", abstract:"初期研究から一貫して分子光化学の基礎と応用の橋渡しを行い、若手研究者の育成にも尽力しました。"}
+const STORAGE_KEY = "yoshihara-profile-config-v2";
+const state = {
+  config: loadConfig(),
+  worksTimer: null,
+  messagesTimer: null,
+  works: [],
+  messages: []
+};
+
+const CAREER_ITEMS = [
+  "2001.3 群馬大学大学院工学研究科 博士後期課程修了（博士（工学））",
+  "2001.4 マックス・プランク研究所生物物理化学 博士研究員",
+  "2004.2 群馬大学工学部応用化学科 助手",
+  "2016.4 群馬大学大学院理工学府分子科学部門 准教授",
+  "2025.4 群馬大学大学院理工学府物質・環境部門 教授（現在）"
 ];
-/* --- 編集ここまで --- */
 
-const listEl = document.getElementById('paperList');
-const mainTitle = document.getElementById('mainTitle');
-const mainAbstract = document.getElementById('mainAbstract');
-const commentsList = document.getElementById('commentsList');
-let idx = 0;
+const RESEARCH_THEMES = [
+  {
+    title: "酸素イメージングプローブ",
+    body: "イリジウム錯体などのりん光性分子を設計し、生細胞・組織内の酸素状態を可視化。"
+  },
+  {
+    title: "脂質滴イメージング",
+    body: "脂質代謝や病態解析に向け、脂溶性発光分子を使った組織内脂質滴の追跡技術を開発。"
+  },
+  {
+    title: "光物理化学の基礎研究",
+    body: "光吸収後の緩和過程（発光・無放射失活・光反応）を実験的に解析し機能分子設計へ接続。"
+  },
+  {
+    title: "診断・医工学応用",
+    body: "がん・虚血など酸素分圧が関与する病態でのイメージング応用と診断可能性を探究。"
+  }
+];
 
-/* render papers list */
-function renderPapers(){
-  listEl.innerHTML = '';
-  papers.forEach((p,i)=>{
-    const d = document.createElement('div');
-    d.className = 'paper-item';
-    d.tabIndex = 0;
-    d.innerHTML = `<div style="font-weight:700">${escapeHtml(p.title)}</div><div class="small" style="margin-top:6px">${escapeHtml(p.abstract)}</div>`;
-    d.onclick = ()=>{ idx=i; show(i); };
-    d.onkeypress = (e)=>{ if(e.key==='Enter') { idx=i; show(i); }};
-    listEl.appendChild(d);
+const OPENALEX_UA = "GunmaProfessorProfile/1.0 (mailto:research-portal@example.com)";
+
+init();
+
+function init() {
+  renderStaticSections();
+  bindModeButtons();
+  bindSettingsForm();
+  applyModeFromQueryOrConfig();
+  applyConfigToInputs();
+  updateFormFrame();
+  scheduleAutoRefresh();
+  refreshAll();
+}
+
+function loadConfig() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { ...DEFAULT_CONFIG };
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_CONFIG, ...parsed };
+  } catch (error) {
+    console.warn("Config load failed:", error);
+    return { ...DEFAULT_CONFIG };
+  }
+}
+
+function saveConfig(config) {
+  state.config = { ...DEFAULT_CONFIG, ...config };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.config));
+}
+
+function applyModeFromQueryOrConfig() {
+  const params = new URLSearchParams(location.search);
+  const queryMode = params.get("mode");
+  const mode = queryMode === "professor" || queryMode === "public" ? queryMode : state.config.mode;
+  setMode(mode || "public");
+}
+
+function setMode(mode) {
+  const nextMode = mode === "professor" ? "professor" : "public";
+  document.body.dataset.mode = nextMode;
+  state.config.mode = nextMode;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.config));
+  document.getElementById("publicModeBtn").setAttribute("aria-pressed", String(nextMode === "public"));
+  document.getElementById("professorModeBtn").setAttribute("aria-pressed", String(nextMode === "professor"));
+  const url = new URL(location.href);
+  url.searchParams.set("mode", nextMode);
+  history.replaceState({}, "", url.toString());
+}
+
+function bindModeButtons() {
+  document.getElementById("publicModeBtn").addEventListener("click", () => setMode("public"));
+  document.getElementById("professorModeBtn").addEventListener("click", () => setMode("professor"));
+}
+
+function renderStaticSections() {
+  const timeline = document.getElementById("careerTimeline");
+  timeline.innerHTML = CAREER_ITEMS.map((item) => "<li>" + escapeHtml(item) + "</li>").join("");
+  const themeGrid = document.getElementById("themeGrid");
+  themeGrid.innerHTML = RESEARCH_THEMES.map((theme) => (
+    "<article class=\"theme\"><h3>" + escapeHtml(theme.title) + "</h3><p>" + escapeHtml(theme.body) + "</p></article>"
+  )).join("");
+}
+
+function bindSettingsForm() {
+  const form = document.getElementById("settingsForm");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const next = {
+      ...state.config,
+      openAlexAuthorId: document.getElementById("openAlexAuthorInput").value.trim() || DEFAULT_CONFIG.openAlexAuthorId,
+      crossrefQuery: document.getElementById("crossrefQueryInput").value.trim() || DEFAULT_CONFIG.crossrefQuery,
+      googleFormEmbedUrl: document.getElementById("formUrlInput").value.trim(),
+      sheetCsvUrl: document.getElementById("sheetCsvInput").value.trim(),
+      publicationRefreshMinutes: clampInt(document.getElementById("refreshMinutesInput").value, 5, 120, DEFAULT_CONFIG.publicationRefreshMinutes),
+      messageRefreshSeconds: clampInt(document.getElementById("refreshSecondsInput").value, 10, 300, DEFAULT_CONFIG.messageRefreshSeconds)
+    };
+    saveConfig(next);
+    applyConfigToInputs();
+    updateFormFrame();
+    scheduleAutoRefresh();
+    refreshAll();
+    setFeedback("settingsFeedback", "設定を保存しました。自動更新に反映済みです。", true);
   });
-  show(0);
+
+  document.getElementById("resetSettingsBtn").addEventListener("click", () => {
+    saveConfig({ ...DEFAULT_CONFIG, mode: state.config.mode });
+    applyConfigToInputs();
+    updateFormFrame();
+    scheduleAutoRefresh();
+    refreshAll();
+    setFeedback("settingsFeedback", "初期値に戻しました。", true);
+  });
+
+  document.getElementById("copyPublicUrlBtn").addEventListener("click", async () => {
+    const url = new URL(location.href);
+    url.searchParams.set("mode", "public");
+    try {
+      await navigator.clipboard.writeText(url.toString());
+      setFeedback("settingsFeedback", "第三者向けURLをコピーしました。", true);
+    } catch (error) {
+      setFeedback("settingsFeedback", "URLのコピーに失敗しました。手動でURLを共有してください。", false);
+    }
+  });
+
+  document.getElementById("refreshWorksBtn").addEventListener("click", () => refreshPublications());
 }
-function show(i){
-  const p = papers[i];
-  mainTitle.textContent = p.title;
-  mainAbstract.textContent = p.abstract;
-  document.getElementById('pjTitle').textContent = p.title;
-  document.getElementById('pjAbstract').textContent = p.abstract;
+
+function applyConfigToInputs() {
+  const cfg = state.config;
+  setValue("openAlexAuthorInput", cfg.openAlexAuthorId);
+  setValue("crossrefQueryInput", cfg.crossrefQuery);
+  setValue("formUrlInput", cfg.googleFormEmbedUrl);
+  setValue("sheetCsvInput", cfg.sheetCsvUrl);
+  setValue("refreshMinutesInput", String(cfg.publicationRefreshMinutes));
+  setValue("refreshSecondsInput", String(cfg.messageRefreshSeconds));
 }
 
-/* navigation */
-document.getElementById('next').onclick = ()=>{ idx=(idx+1)%papers.length; show(idx); };
-document.getElementById('prev').onclick = ()=>{ idx=(idx-1+papers.length)%papers.length; show(idx); };
+function setValue(id, value) {
+  const node = document.getElementById(id);
+  if (node) node.value = value;
+}
 
-/* projector */
-document.getElementById('projectorBtn').onclick = ()=>{ document.getElementById('projector').style.display='block'; };
-document.getElementById('closePJ').onclick = ()=>{ document.getElementById('projector').style.display='none'; };
+function updateFormFrame() {
+  const frame = document.getElementById("visitorFormFrame");
+  const wrap = document.getElementById("formWrap");
+  const placeholder = document.getElementById("formPlaceholder");
+  if (state.config.googleFormEmbedUrl) {
+    frame.src = state.config.googleFormEmbedUrl;
+    wrap.hidden = false;
+    placeholder.textContent = "フォームを読み込みました。";
+    placeholder.className = "status ok";
+  } else {
+    frame.removeAttribute("src");
+    wrap.hidden = true;
+    placeholder.textContent = "教授モードで Googleフォーム埋め込みURL を設定してください。";
+    placeholder.className = "status warn";
+  }
+}
 
-/* highlight: projector を開く */
-document.getElementById('highlight').onclick = ()=>{ document.getElementById('projector').style.display='block'; };
+function scheduleAutoRefresh() {
+  if (state.worksTimer) clearInterval(state.worksTimer);
+  if (state.messagesTimer) clearInterval(state.messagesTimer);
+  state.worksTimer = setInterval(refreshPublications, state.config.publicationRefreshMinutes * 60 * 1000);
+  state.messagesTimer = setInterval(refreshMessages, state.config.messageRefreshSeconds * 1000);
+}
 
-/* fetch comments from CSV published sheet (simple parser) */
-async function fetchComments(){
-  if(!SHEET_CSV_URL || SHEET_CSV_URL.includes('SHEET_CSV_URL')){ commentsList.innerHTML = '<div class="small">コメント用CSVの URL を設定してください（index.html 内の SHEET_CSV_URL を編集）。</div>'; return; }
-  try{
-    const res = await fetch(SHEET_CSV_URL);
-    const txt = await res.text();
-    // CSV を簡易パース（カンマ区切り、ダブルクオート簡易除去）
-    const rows = txt.trim().split('\n').map(r=>parseCSVLine(r));
-    if(rows.length<=1){ commentsList.innerHTML = '<div class="small">まだメッセージはありません。</div>'; return; }
-    const header = rows[0].map(h=>h.toLowerCase());
-    const nameIdx = header.findIndex(h=>h.includes('name')||h.includes('お名前')||h.includes('氏名')) ;
-    const msgIdx = header.findIndex(h=>h.includes('message')||h.includes('メッセージ')||h.includes('comment')||h.includes('ご意見')) ;
-    const data = rows.slice(1).map(r=>{
-      const name = (nameIdx>=0 && r[nameIdx]) ? r[nameIdx] : '匿名';
-      const msg = (msgIdx>=0 && r[msgIdx]) ? r[msgIdx] : r.slice(1).join(' ');
-      return {name, msg};
+async function refreshAll() {
+  await Promise.all([refreshPublications(), refreshMessages()]);
+}
+
+async function refreshPublications() {
+  setWorksStatus("文献情報を更新しています...");
+  const [authorInfo, openAlexWorks, crossrefWorks] = await Promise.all([
+    fetchOpenAlexAuthor(),
+    fetchOpenAlexWorks(),
+    fetchCrossrefWorks()
+  ]);
+  if (authorInfo) renderMetrics(authorInfo);
+  const merged = mergeWorks(openAlexWorks, crossrefWorks).slice(0, state.config.maxWorks);
+  state.works = merged;
+  renderWorks(merged);
+  const successCount = (openAlexWorks.length > 0 ? 1 : 0) + (crossrefWorks.length > 0 ? 1 : 0);
+  if (!merged.length) {
+    setWorksStatus("文献取得に失敗しました。教授モードでAPI設定を確認してください。", false);
+    return;
+  }
+  const now = formatDateTime(new Date());
+  document.getElementById("lastSync").textContent = now;
+  if (successCount === 2) {
+    setWorksStatus("OpenAlex / Crossref の両方から同期完了（" + merged.length + "件表示）", true);
+  } else {
+    setWorksStatus("一部ソースから同期完了（" + merged.length + "件表示）", true);
+  }
+}
+
+function renderMetrics(author) {
+  document.getElementById("worksCount").textContent = numberOrDash(author.works_count);
+  document.getElementById("citationCount").textContent = numberOrDash(author.cited_by_count);
+  document.getElementById("hIndex").textContent = numberOrDash(author.summary_stats && author.summary_stats.h_index);
+}
+
+async function fetchOpenAlexAuthor() {
+  const url = "https://api.openalex.org/authors/" + encodeURIComponent(state.config.openAlexAuthorId);
+  try {
+    const response = await fetch(url, { headers: { "User-Agent": OPENALEX_UA } });
+    if (!response.ok) throw new Error("OpenAlex author fetch failed");
+    return await response.json();
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+}
+
+async function fetchOpenAlexWorks() {
+  const url = "https://api.openalex.org/works?filter=author.id:" + encodeURIComponent(state.config.openAlexAuthorId) +
+    "&sort=publication_date:desc&per-page=" + encodeURIComponent(String(state.config.maxWorks));
+  try {
+    const response = await fetch(url, { headers: { "User-Agent": OPENALEX_UA } });
+    if (!response.ok) throw new Error("OpenAlex works fetch failed");
+    const payload = await response.json();
+    return (payload.results || []).map((item) => {
+      const source = item.primary_location && item.primary_location.source ? item.primary_location.source.display_name : "";
+      const doi = item.doi || (item.ids ? item.ids.doi : "");
+      return {
+        title: item.display_name || "Untitled",
+        year: item.publication_year || "",
+        date: item.publication_date || String(item.publication_year || ""),
+        venue: source || "OpenAlex",
+        doi: normalizeDoi(doi),
+        authors: (item.authorships || []).slice(0, 4).map((authorship) => authorship.author && authorship.author.display_name).filter(Boolean),
+        source: "OpenAlex"
+      };
     });
-    renderComments(data);
-  }catch(e){
-    console.error(e);
-    commentsList.innerHTML = '<div class="small">コメントの取得に失敗しました（CSV URL を確認してください）。</div>';
+  } catch (error) {
+    console.warn(error);
+    return [];
   }
 }
-function renderComments(arr){
-  if(!arr.length){ commentsList.innerHTML = '<div class="small">まだメッセージはありません。</div>'; return; }
-  commentsList.innerHTML = arr.map(c=>`<div class="comment-item"><div style="font-weight:700">${escapeHtml(c.name)}</div><div class="small" style="margin-top:6px">${escapeHtml(c.msg)}</div></div>`).join('');
-}
-function parseCSVLine(line){
-  // 非完全なCSVパーサだが Google 公開CSV には十分
-  const parts = [];
-  let cur=''; let inQ=false;
-  for(let i=0;i<line.length;i++){
-    const ch=line[i];
-    if(ch==='\"'){ inQ=!inQ; continue; }
-    if(ch===',' && !inQ){ parts.push(cur); cur=''; continue; }
-    cur+=ch;
+
+async function fetchCrossrefWorks() {
+  if (!state.config.crossrefQuery) return [];
+  const url = "https://api.crossref.org/works?query=" + encodeURIComponent(state.config.crossrefQuery) +
+    "&rows=" + encodeURIComponent(String(state.config.maxWorks)) +
+    "&sort=published&order=desc";
+  try {
+    const response = await fetch(url, { headers: { "User-Agent": OPENALEX_UA } });
+    if (!response.ok) throw new Error("Crossref fetch failed");
+    const payload = await response.json();
+    return (payload.message && payload.message.items ? payload.message.items : []).map((item) => {
+      const title = item.title && item.title.length ? item.title[0] : "Untitled";
+      const year = extractCrossrefYear(item);
+      const venue = item["container-title"] && item["container-title"].length ? item["container-title"][0] : "Crossref";
+      const authors = (item.author || []).slice(0, 4).map((author) => {
+        const given = author.given || "";
+        const family = author.family || "";
+        return (given + " " + family).trim();
+      }).filter(Boolean);
+      return {
+        title: title,
+        year: year,
+        date: year ? String(year) : "",
+        venue: venue,
+        doi: normalizeDoi(item.DOI || ""),
+        authors: authors,
+        source: "Crossref"
+      };
+    });
+  } catch (error) {
+    console.warn(error);
+    return [];
   }
-  parts.push(cur);
-  return parts.map(s=>s.trim());
 }
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* init */
-renderPapers();
-fetchComments();
-setInterval(fetchComments, 8000);
+function mergeWorks(primary, secondary) {
+  const merged = [];
+  const seen = new Set();
+  [primary, secondary].forEach((group) => {
+    group.forEach((item) => {
+      const key = (item.doi || item.title.toLowerCase().replace(/\s+/g, " ").trim());
+      if (seen.has(key)) return;
+      seen.add(key);
+      merged.push(item);
+    });
+  });
+  merged.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  return merged;
+}
 
-/* keyboard nav */
-document.addEventListener('keydown', (e)=>{
-  if(e.key==='ArrowRight') { idx=(idx+1)%papers.length; show(idx); }
-  if(e.key==='ArrowLeft') { idx=(idx-1+papers.length)%papers.length; show(idx); }
-  if(e.key==='Escape') document.getElementById('projector').style.display='none';
-});
+function renderWorks(works) {
+  const node = document.getElementById("worksList");
+  if (!works.length) {
+    node.innerHTML = "<p class=\"status warn\">文献が取得できませんでした。時間を置いて再試行してください。</p>";
+    return;
+  }
+  node.innerHTML = works.map((work) => {
+    const authorLine = work.authors && work.authors.length ? work.authors.join(", ") : "著者情報なし";
+    const doiLine = work.doi ? "<a href=\"https://doi.org/" + escapeHtml(work.doi) + "\" target=\"_blank\" rel=\"noopener noreferrer\">doi:" + escapeHtml(work.doi) + "</a>" : "DOI未登録";
+    return (
+      "<article class=\"work-item\">" +
+      "<h3>" + escapeHtml(work.title) + "</h3>" +
+      "<div class=\"work-meta\">" +
+      "<span class=\"pill\">" + escapeHtml(work.source) + "</span> " +
+      escapeHtml(String(work.year || "年不明")) + " / " + escapeHtml(work.venue || "掲載誌不明") +
+      "</div>" +
+      "<div class=\"work-meta\">" + escapeHtml(authorLine) + "</div>" +
+      "<div class=\"work-meta\">" + doiLine + "</div>" +
+      "</article>"
+    );
+  }).join("");
+}
+
+function setWorksStatus(message, ok) {
+  const node = document.getElementById("worksStatus");
+  node.innerHTML = "<span class=\"" + (ok ? "ok" : "warn") + "\">" + escapeHtml(message) + "</span>";
+}
+
+async function refreshMessages() {
+  const raw = state.config.sheetCsvUrl.trim();
+  if (!raw) {
+    renderMessages([]);
+    setMessageStatus("メッセージ取得先が未設定です。教授モードでシートURLを設定してください。", false);
+    return;
+  }
+  const csvUrl = normalizeSheetToCsvUrl(raw);
+  try {
+    const response = await fetch(csvUrl, { cache: "no-store" });
+    if (!response.ok) throw new Error("CSV fetch failed");
+    const text = await response.text();
+    const rows = parseCsv(text);
+    const messages = mapRowsToMessages(rows).slice(-10).reverse();
+    state.messages = messages;
+    renderMessages(messages);
+    setMessageStatus("最新 " + messages.length + " 件を表示中。最終更新: " + formatDateTime(new Date()), true);
+  } catch (error) {
+    console.warn(error);
+    renderMessages([]);
+    setMessageStatus("メッセージを取得できませんでした。公開設定またはURLを確認してください。", false);
+  }
+}
+
+function renderMessages(messages) {
+  const node = document.getElementById("messageList");
+  if (!messages.length) {
+    node.innerHTML = "<div class=\"message\"><div class=\"meta\">表示できるメッセージがまだありません。</div></div>";
+    return;
+  }
+  node.innerHTML = messages.map((msg) => (
+    "<article class=\"message\">" +
+    "<div class=\"name\">" + escapeHtml(msg.name || "匿名") + "</div>" +
+    "<div style=\"margin-top:4px\">" + escapeHtml(msg.message) + "</div>" +
+    "<div class=\"meta\" style=\"margin-top:6px\">" + escapeHtml(msg.time || "") + "</div>" +
+    "</article>"
+  )).join("");
+}
+
+function setMessageStatus(message, ok) {
+  const node = document.getElementById("messageStatus");
+  node.innerHTML = "<span class=\"" + (ok ? "ok" : "warn") + "\">" + escapeHtml(message) + "</span>";
+}
+
+function mapRowsToMessages(rows) {
+  if (!rows.length) return [];
+  const header = rows[0].map((item) => item.toLowerCase().trim());
+  const nameIndex = header.findIndex((key) => /(name|氏名|名前|お名前)/.test(key));
+  const msgIndex = header.findIndex((key) => /(message|メッセージ|comment|本文|内容)/.test(key));
+  const timeIndex = header.findIndex((key) => /(time|日時|timestamp|date)/.test(key));
+  const result = [];
+  for (let i = 1; i < rows.length; i += 1) {
+    const row = rows[i];
+    const message = msgIndex >= 0 ? row[msgIndex] : row.slice(1).join(" ").trim();
+    if (!message) continue;
+    result.push({
+      name: nameIndex >= 0 ? row[nameIndex] : "匿名",
+      message: message,
+      time: timeIndex >= 0 ? row[timeIndex] : ""
+    });
+  }
+  return result;
+}
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let inQuotes = false;
+  for (let i = 0; i < text.length; i += 1) {
+    const char = text[i];
+    const next = text[i + 1];
+    if (char === "\"" && inQuotes && next === "\"") {
+      cell += "\"";
+      i += 1;
+      continue;
+    }
+    if (char === "\"") {
+      inQuotes = !inQuotes;
+      continue;
+    }
+    if (char === "," && !inQuotes) {
+      row.push(cell.trim());
+      cell = "";
+      continue;
+    }
+    if ((char === "\n" || char === "\r") && !inQuotes) {
+      if (char === "\r" && next === "\n") i += 1;
+      row.push(cell.trim());
+      if (row.some((value) => value !== "")) rows.push(row);
+      row = [];
+      cell = "";
+      continue;
+    }
+    cell += char;
+  }
+  if (cell.length || row.length) {
+    row.push(cell.trim());
+    if (row.some((value) => value !== "")) rows.push(row);
+  }
+  return rows;
+}
+
+function normalizeSheetToCsvUrl(input) {
+  if (input.includes("output=csv") || input.includes("tqx=out:csv")) return input;
+  const match = input.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (!match) return input;
+  const spreadsheetId = match[1];
+  const gidMatch = input.match(/[?#&]gid=([0-9]+)/);
+  const gid = gidMatch ? gidMatch[1] : "0";
+  return "https://docs.google.com/spreadsheets/d/" + spreadsheetId + "/gviz/tq?tqx=out:csv&gid=" + gid;
+}
+
+function normalizeDoi(value) {
+  if (!value) return "";
+  return String(value)
+    .replace(/^https?:\/\/(dx\.)?doi\.org\//i, "")
+    .trim();
+}
+
+function extractCrossrefYear(item) {
+  const nodes = [item.published, item["published-print"], item["published-online"], item.created];
+  for (let i = 0; i < nodes.length; i += 1) {
+    const parts = nodes[i] && nodes[i]["date-parts"] && nodes[i]["date-parts"][0];
+    if (parts && parts.length) return parts[0];
+  }
+  return "";
+}
+
+function clampInt(raw, min, max, fallback) {
+  const value = parseInt(raw, 10);
+  if (Number.isNaN(value)) return fallback;
+  return Math.min(Math.max(value, min), max);
+}
+
+function formatDateTime(date) {
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  const hh = String(date.getHours()).padStart(2, "0");
+  const mi = String(date.getMinutes()).padStart(2, "0");
+  return yyyy + "/" + mm + "/" + dd + " " + hh + ":" + mi;
+}
+
+function numberOrDash(value) {
+  if (typeof value !== "number") return "--";
+  return value.toLocaleString("ja-JP");
+}
+
+function setFeedback(id, message, ok) {
+  const node = document.getElementById(id);
+  node.innerHTML = "<span class=\"" + (ok ? "ok" : "warn") + "\">" + escapeHtml(message) + "</span>";
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
 </script>
 </body>
 </html>
