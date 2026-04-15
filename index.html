@@ -1,225 +1,896 @@
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>吉原研究室 昇任お祝い</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="群馬大学 吉原利忠教授の研究紹介ポータル。最新文献の自動更新とメッセージ共有機能を備えた公開ページ。" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<title>群馬大学 吉原利忠教授 | 研究紹介・メッセージポータル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
 <style>
-:root{--bg:#fbfdff;--card:#ffffff;--muted:#556;--accent:#0b6b63}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Noto Sans JP",system-ui,-apple-system,Segoe UI,Roboto,Meiryo;background:linear-gradient(180deg,#fbfdff,#f3f6f8);color:#06121a}
-.container{max-width:1100px;margin:24px auto;padding:18px}
-.header{display:flex;gap:16px;align-items:center}
-.logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#6c4bd6);display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
-.title h1{margin:0;font-size:20px} .title p{margin:6px 0 0;color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:360px 1fr;gap:16px;margin-top:18px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.panel{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 8px 28px rgba(6,18,27,0.04)}
-.paper-item{padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid transparent}
-.paper-item:hover{background:#f1f5f9;cursor:pointer}
-.bigTitle{font-weight:800;font-size:18px}
-.abstract{color:var(--muted);margin-top:8px;line-height:1.6}
-.controls{display:flex;gap:8px;margin-top:12px}
-.btn{padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
-.primary{background:linear-gradient(180deg,var(--accent),#084b44);color:white}
-.ghost{background:transparent;border:1px solid #eef3f8;color:var(--muted)}
-.comment{border-top:1px solid #eef3f8;padding-top:10px;margin-top:12px}
-.comment-item{padding:10px;border-radius:8px;border-bottom:1px dashed #eef3f8}
-.small{font-size:13px;color:var(--muted)}
-.footer{color:var(--muted);font-size:13px;margin-top:12px}
-.meta{font-size:13px;color:var(--muted);margin-top:6px}
-.projector{display:none;position:fixed;inset:0;background:linear-gradient(180deg,#051218,#05232b);color:white;z-index:90;padding:36px}
-.centerPJ{max-width:1200px;margin:0 auto}
-.copyHint{font-size:13px;color:#335}
+:root {
+  --bg: #f3f7fd;
+  --bg-soft: #eaf1fb;
+  --card: #ffffff;
+  --text: #122238;
+  --muted: #576981;
+  --line: #d5e2f0;
+  --brand: #164f86;
+  --brand-strong: #0f3a62;
+  --accent: #0b8f77;
+  --warn: #c26016;
+  --danger: #bf2d34;
+  --shadow: 0 14px 30px rgba(19, 48, 78, 0.1);
+  --radius: 18px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: radial-gradient(circle at top right, #dcecff, var(--bg) 43%);
+  color: var(--text);
+  font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.65;
+}
+a { color: var(--brand); }
+.shell { max-width: 1240px; margin: 0 auto; padding: 18px 16px 56px; }
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  font-size: 12px;
+}
+.mode-switch {
+  display: inline-flex;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+}
+.mode-switch button {
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #2d4e6f;
+}
+.mode-switch button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--brand-strong);
+  box-shadow: 0 2px 8px rgba(22, 79, 134, 0.18);
+}
+.hero {
+  margin-top: 14px;
+  border-radius: 24px;
+  padding: 24px;
+  color: #ebf5ff;
+  background: linear-gradient(140deg, #0c3f6b, #156a8f);
+  box-shadow: var(--shadow);
+}
+.hero h1 {
+  margin: 6px 0 0;
+  line-height: 1.25;
+  font-size: clamp(24px, 4vw, 37px);
+}
+.hero p {
+  margin: 8px 0 0;
+  color: #d4eafb;
+}
+.metrics {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.metric {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 10px;
+}
+.metric .k { font-size: 11px; color: #d2e9fa; }
+.metric .v { font-size: 20px; font-weight: 800; margin-top: 2px; }
+.layout {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 14px;
+}
+.stack { display: grid; gap: 12px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+.card h2 { margin: 0; font-size: 18px; line-height: 1.35; }
+.sub { color: var(--muted); margin: 6px 0 0; font-size: 13px; }
+.timeline { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 8px; }
+.grid2 {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.panel {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #f8fbff;
+  padding: 11px;
+}
+.panel h3 { margin: 0; font-size: 15px; }
+.panel p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+.works { margin-top: 10px; display: grid; gap: 10px; }
+.work {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brand);
+  background: #fff;
+  padding: 10px;
+}
+.work h3 { margin: 0; font-size: 15px; line-height: 1.45; }
+.work-meta { margin-top: 6px; font-size: 12px; color: var(--muted); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #c2d8ec;
+  color: #2e5578;
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 11px;
+  background: #eef6ff;
+}
+.status { margin-top: 8px; font-size: 13px; color: var(--muted); }
+.status.ok { color: var(--accent); font-weight: 700; }
+.status.warn { color: var(--warn); font-weight: 700; }
+.status.danger { color: var(--danger); font-weight: 700; }
+.field { display: grid; gap: 6px; margin-top: 10px; }
+label { font-size: 13px; color: var(--muted); font-weight: 700; }
+input, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  font: inherit;
+  color: inherit;
+  background: #fff;
+}
+textarea { min-height: 86px; resize: vertical; }
+.btn-row {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+button {
+  border: 1px solid transparent;
+  border-radius: 11px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.primary {
+  color: #fff;
+  background: linear-gradient(180deg, var(--brand), var(--brand-strong));
+}
+.ghost {
+  color: var(--text);
+  background: #fff;
+  border-color: var(--line);
+}
+.danger {
+  color: #fff;
+  background: linear-gradient(180deg, #cb3d43, #9d1f28);
+}
+.messages { display: grid; gap: 8px; margin-top: 8px; }
+.message {
+  border: 1px dashed var(--line);
+  background: #fbfdff;
+  border-radius: 10px;
+  padding: 9px;
+}
+.message .name { font-weight: 700; font-size: 13px; }
+.message .meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.code-box {
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  background: #f7fbff;
+  border-radius: 10px;
+  padding: 9px;
+  word-break: break-all;
+  font-size: 12px;
+  color: #2b4968;
+}
+.sources {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+.footer {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.professor-only { display: none; }
+body[data-mode="professor"] .professor-only { display: block; }
+body[data-mode="professor"] .public-only { display: none; }
+
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid2 { grid-template-columns: 1fr; }
+}
 </style>
 </head>
-<body>
-<div class="container">
-  <div class="header">
-    <div class="logo" aria-hidden="true">Y</div>
-    <div class="title">
-      <h1>吉原研究室 昇任お祝い</h1>
-      <p>これまでの業績と経歴を讃え、来場者のメッセージを教授に届けます。LINEで共有してご参加ください。</p>
+<body data-mode="public">
+<div class="shell">
+  <header class="topbar">
+    <div class="capsule">群馬大学大学院理工学府 / 吉原利忠教授 研究紹介ポータル</div>
+    <div class="mode-switch" role="group" aria-label="ページモード切替">
+      <button id="publicModeBtn" type="button" aria-pressed="true">第三者向け</button>
+      <button id="professorModeBtn" type="button" aria-pressed="false">教授向け管理</button>
     </div>
-  </div>
+  </header>
 
-  <div class="grid">
-    <aside class="panel" aria-label="略歴と投稿">
-      <div style="font-weight:700">略歴・代表論文</div>
-      <div id="paperList" style="margin-top:10px"></div>
+  <section class="hero" aria-label="教授紹介">
+    <div class="capsule">光化学 × バイオイメージング / 文献は自動更新</div>
+    <h1>吉原 利忠 教授（Toshitada YOSHIHARA）</h1>
+    <p>
+      群馬大学大学院理工学府 物質・環境部門 教授。光と物質の相互作用を分子レベルで解明し、
+      酸素や脂質など生命現象の可視化へつながる発光プローブ分子を開発。
+    </p>
+    <div class="metrics">
+      <div class="metric"><div class="k">OpenAlex 論文数</div><div class="v" id="worksCount">--</div></div>
+      <div class="metric"><div class="k">被引用数</div><div class="v" id="citationCount">--</div></div>
+      <div class="metric"><div class="k">h-index</div><div class="v" id="hIndex">--</div></div>
+      <div class="metric"><div class="k">文献最終更新</div><div class="v" id="lastSync" style="font-size:14px">未同期</div></div>
+    </div>
+  </section>
 
-      <div style="margin-top:14px">
-        <div style="font-weight:700">メッセージを送る（LINEで共有）</div>
-        <div class="small" style="margin-top:6px">下のフォームから教授へメッセージを送れます。教授はスプレッドシートでリアルタイム確認可能です。</div>
-        <div style="margin-top:10px">
-          <!-- ★ ここを作成したGoogleフォームの埋め込みURL（iframe src）に置き換えてください -->
-          <iframe id="gform" src="https://docs.google.com/forms/d/e/1FAIpQLSdUbXyM5QFIRit6YcHe_-1VC_g1H6oTV6zoXubc11jE7kXcZg/viewform?embedded=true" width="100%" height="340" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+  <div class="layout">
+    <main class="stack">
+      <section class="card">
+        <h2>教授プロフィール</h2>
+        <p class="sub">群馬大学公式情報をもとに、初見の方にも研究内容が伝わる構成に整理しています。</p>
+        <div class="grid2">
+          <article class="panel">
+            <h3>専門領域</h3>
+            <p>光化学、バイオイメージング、りん光性材料、酸素センシング、機能性発光分子。</p>
+          </article>
+          <article class="panel">
+            <h3>研究の価値</h3>
+            <p>がん・虚血など酸素分圧が関わる病態の理解や診断支援につながる可視化技術を推進。</p>
+          </article>
         </div>
+      </section>
 
-        <div style="margin-top:10px" class="meta">
-          フォームの作り方: Google フォームで「名前（任意）」「メッセージ（必須）」を作成し、回答先をスプレッドシートにリンクしてください。スプレッドシートを「ファイル→ウェブに公開」で CSV 出力にしてください。その CSV URL を下の設定に貼ります。
+      <section class="card">
+        <h2>経歴ハイライト</h2>
+        <ul class="timeline" id="careerTimeline"></ul>
+      </section>
+
+      <section class="card">
+        <h2>研究テーマ</h2>
+        <div class="grid2" id="themeGrid"></div>
+      </section>
+
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+          <div>
+            <h2>最新の関連文献（自動取得）</h2>
+            <p class="sub">OpenAlex + Crossref から取得し、重複を除いて新着順に表示します。</p>
+          </div>
+          <button id="refreshWorksBtn" type="button" class="ghost">文献を再取得</button>
         </div>
-      </div>
-    </aside>
+        <div class="status" id="worksStatus">文献を読み込み中...</div>
+        <div class="works" id="worksList"></div>
+      </section>
 
-    <main class="panel" aria-label="表示とコメント">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div class="bigTitle" id="mainTitle">読み込み中…</div>
-          <div class="small" id="mainSub">論文要旨・略歴を表示します</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button id="projectorBtn" class="btn ghost">プロジェクタ表示</button>
-        </div>
-      </div>
-
-      <div class="abstract" id="mainAbstract">要旨がここに表示されます。会場向けに1〜2文に要約しました。</div>
-
-      <div class="controls">
-        <button id="prev" class="btn ghost">前へ</button>
-        <button id="next" class="btn primary">次へ</button>
-        <button id="highlight" class="btn primary">強調表示</button>
-      </div>
-
-      <div class="comment" id="commentsArea">
-        <div style="font-weight:700">来場者のメッセージ</div>
-        <div id="commentsList" style="margin-top:8px">読み込み中…</div>
-        <div class="copyHint" style="margin-top:8px">教授用: スプレッドシートの共有リンク（編集または閲覧）を教授に直接送ってください。教授はスプレッドシートでリアルタイムに確認できます。</div>
-      </div>
-
-      <div class="footer">公開URLをLINEで共有して、来場者からの祝辞を受け取ってください。</div>
+      <section class="card">
+        <h2>一次情報・参照文献</h2>
+        <p class="sub">プロフィール要約と最新情報更新の参照元です。</p>
+        <ul class="sources">
+          <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/" target="_blank" rel="noopener noreferrer">分子光化学研究室（吉原研究室）公式サイト</a></li>
+          <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/people/" target="_blank" rel="noopener noreferrer">メンバー・経歴（公式）</a></li>
+          <li><a href="https://researchers.st.gunma-u.ac.jp/953/" target="_blank" rel="noopener noreferrer">群馬大学 教員・研究紹介（吉原利忠）</a></li>
+          <li><a href="https://researchmap.jp/read0139783" target="_blank" rel="noopener noreferrer">researchmap（吉原利忠）</a></li>
+          <li><a href="https://api.openalex.org/authors/A5069986511" target="_blank" rel="noopener noreferrer">OpenAlex Author API</a></li>
+          <li><a href="https://scholar.google.com/scholar?q=Toshitada+Yoshihara" target="_blank" rel="noopener noreferrer">Google Scholar 検索</a></li>
+        </ul>
+      </section>
     </main>
-  </div>
-</div>
 
-<div id="projector" class="projector" role="dialog" aria-hidden="true">
-  <div class="centerPJ">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div style="font-weight:700">吉原研究室 昇任お祝い</div>
-      <div><button id="closePJ" class="btn ghost" style="color:white">閉じる</button></div>
-    </div>
-    <div style="margin-top:40px">
-      <div style="font-size:44px;font-weight:800" id="pjTitle">タイトル</div>
-      <div style="margin-top:18px;font-size:20px;color:#dffbe6" id="pjAbstract">要旨が大きく表示されます</div>
-    </div>
+    <aside class="stack">
+      <section class="card public-only">
+        <h2>吉原教授へメッセージ</h2>
+        <p class="sub">Googleフォーム不要。ここから直接投稿できます。</p>
+        <form id="messageForm">
+          <div class="field">
+            <label for="senderNameInput">お名前（任意）</label>
+            <input id="senderNameInput" maxlength="80" placeholder="例: 山田 太郎" />
+          </div>
+          <div class="field">
+            <label for="senderAffiliationInput">所属（任意）</label>
+            <input id="senderAffiliationInput" maxlength="120" placeholder="例: 群馬大学 理工学府" />
+          </div>
+          <div class="field">
+            <label for="messageInput">メッセージ（必須）</label>
+            <textarea id="messageInput" maxlength="2000" required placeholder="教授へのメッセージを入力してください（最大2000文字）。"></textarea>
+            <div class="sub">公開共有されるため、電話番号・住所など個人情報の記載は避けてください。</div>
+          </div>
+          <div class="btn-row">
+            <button type="submit" class="primary">この端末で送信</button>
+            <button type="button" id="copyShareLinkBtn" class="ghost">共有リンク/コードをコピー</button>
+          </div>
+          <div id="messageFormStatus" class="status"></div>
+          <div class="code-box" id="shareLinkBox">共有リンクはここに表示されます。</div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>受信メッセージ</h2>
+        <p class="sub">送信されたメッセージを時系列で表示します（最新10件）。</p>
+        <div id="messageStatus" class="status">メッセージを読み込み中...</div>
+        <div class="messages" id="messageList"></div>
+      </section>
+
+      <section class="card professor-only">
+        <h2>教授向け管理</h2>
+        <p class="sub">共有リンク/コード取り込み、バックアップ保存、削除が可能です。</p>
+        <div class="field">
+          <label for="importInput">共有リンクまたは共有コードを貼り付け</label>
+          <textarea id="importInput" maxlength="12000" placeholder="例: https://.../?mode=professor&import=...."></textarea>
+        </div>
+        <div class="btn-row">
+          <button type="button" id="importBtn" class="primary">取り込む</button>
+          <button type="button" id="exportJsonBtn" class="ghost">JSON保存</button>
+          <button type="button" id="exportCsvBtn" class="ghost">CSV保存</button>
+          <button type="button" id="clearMessagesBtn" class="danger">全削除</button>
+        </div>
+        <div id="professorStatus" class="status"></div>
+      </section>
+    </aside>
   </div>
+
+  <p class="footer">
+    Googleフォーム/スプレッドシートに依存しない設計です。文献情報はAPIから自動更新、
+    メッセージはページ内で即時運用できます。
+  </p>
 </div>
 
 <script>
-/* ===========================
-  置き換える箇所
-  1) GOOGLE_FORM_EMBED_URL を Google フォームの埋め込み iframe の src に置き換える
-     （フォーム > 送信 > < > 埋め込み にある src を貼る）
-  2) SHEET_CSV_URL をスプレッドシートを「ファイル→ウェブに公開」で得られる CSV の URL に置き換える
-     例: https://docs.google.com/spreadsheets/d/e/FILE_ID/pub?output=csv
-=========================== */
+const CONFIG = {
+  modeStorageKey: "yoshihara-profile-mode-v3",
+  messageStorageKey: "yoshihara-messages-v1",
+  openAlexAuthorId: "A5069986511",
+  crossrefQuery: "Toshitada Yoshihara Gunma University oxygen imaging iridium",
+  worksRefreshMs: 15 * 60 * 1000,
+  maxWorks: 12,
+  maxMessages: 200,
+  maxNameLength: 80,
+  maxAffiliationLength: 120,
+  maxMessageLength: 2000,
+  maxImportTokenLength: 12000,
+  openAlexMailto: "research-portal@example.com"
+};
 
-/* --- 編集ここから --- */
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/u/0/d/1tmMjoO2hw683DdeivF9HZniscPe__f7CvVcO9C1kF4U/htmlview#gid=1181094571";
-/* 代表論文と短い要旨（会場で読み上げられるよう1〜2行で整えました） */
-const papers = [
-  {title:"Ultrafast energy transfer in molecular assemblies (2021)", abstract:"高時間分解能分光で分子集合体内の超高速エネルギー移動を明らかにし、光機能材料設計に道を拓いた研究です。"},
-  {title:"Photoinduced charge separation using azobenzene derivatives (2019)", abstract:"アゾベンゼン誘導体を用いた光誘起電荷分離の効率化を示し、分子デバイス応用の可能性を示しました。"},
-  {title:"Coherent control of exciton dynamics (2017)", abstract:"レーザー位相制御により励起子のダイナミクスを操作し、量子制御の実証に貢献しました。"},
-  {title:"Spectroscopic signatures of conical intersections (2015)", abstract:"円錐交差がもたらす分光学的指紋を詳細に解析し、光化学反応理解を深化させました。"},
-  {title:"Design principles for photoactive supramolecular systems (2013)", abstract:"超分子系における光機能設計原理を提示し、材料設計の指針を与えました。"},
-  {title:"Early-career contributions to molecular photochemistry (2010)", abstract:"初期研究から一貫して分子光化学の基礎と応用の橋渡しを行い、若手研究者の育成にも尽力しました。"}
+const CAREER_ITEMS = [
+  "2001.3 群馬大学大学院工学研究科 博士後期課程修了（博士（工学））",
+  "2001.4 マックス・プランク研究所生物物理化学 博士研究員",
+  "2004.2 群馬大学工学部応用化学科 助手",
+  "2016.4 群馬大学大学院理工学府分子科学部門 准教授",
+  "2025.4 群馬大学大学院理工学府物質・環境部門 教授（現在）"
 ];
-/* --- 編集ここまで --- */
 
-const listEl = document.getElementById('paperList');
-const mainTitle = document.getElementById('mainTitle');
-const mainAbstract = document.getElementById('mainAbstract');
-const commentsList = document.getElementById('commentsList');
-let idx = 0;
+const THEMES = [
+  { title: "酸素イメージングプローブ", body: "イリジウム錯体などのりん光性分子を設計し、生細胞・組織内の酸素状態を可視化。" },
+  { title: "脂質滴イメージング", body: "脂溶性発光分子を用い、脂質代謝関連病態の解析につながる可視化技術を開発。" },
+  { title: "光物理化学の基礎研究", body: "発光過程・無放射失活過程・光化学反応を精密計測し、分子設計へ反映。" },
+  { title: "診断・医工学応用", body: "酸素分圧の可視化を通じて、病態の理解や診断支援への応用可能性を追求。" }
+];
 
-/* render papers list */
-function renderPapers(){
-  listEl.innerHTML = '';
-  papers.forEach((p,i)=>{
-    const d = document.createElement('div');
-    d.className = 'paper-item';
-    d.tabIndex = 0;
-    d.innerHTML = `<div style="font-weight:700">${escapeHtml(p.title)}</div><div class="small" style="margin-top:6px">${escapeHtml(p.abstract)}</div>`;
-    d.onclick = ()=>{ idx=i; show(i); };
-    d.onkeypress = (e)=>{ if(e.key==='Enter') { idx=i; show(i); }};
-    listEl.appendChild(d);
+const state = {
+  mode: "public",
+  works: [],
+  messages: [],
+  worksTimer: null,
+  pendingDraftForShare: null
+};
+
+init();
+
+function init() {
+  renderStatic();
+  bindModeButtons();
+  bindMessageForm();
+  bindProfessorTools();
+  bindWorkRefreshButton();
+  loadMode();
+  loadMessages();
+  processImportFromUrl();
+  renderMessages();
+  refreshPublications();
+  scheduleWorksRefresh();
+}
+
+function renderStatic() {
+  document.getElementById("careerTimeline").innerHTML = CAREER_ITEMS
+    .map((item) => "<li>" + escapeHtml(item) + "</li>")
+    .join("");
+  document.getElementById("themeGrid").innerHTML = THEMES
+    .map((theme) => "<article class=\"panel\"><h3>" + escapeHtml(theme.title) + "</h3><p>" + escapeHtml(theme.body) + "</p></article>")
+    .join("");
+}
+
+function bindModeButtons() {
+  document.getElementById("publicModeBtn").addEventListener("click", () => setMode("public"));
+  document.getElementById("professorModeBtn").addEventListener("click", () => setMode("professor"));
+}
+
+function loadMode() {
+  const params = new URLSearchParams(location.search);
+  const queryMode = params.get("mode");
+  const storedMode = localStorage.getItem(CONFIG.modeStorageKey);
+  if (queryMode === "public" || queryMode === "professor") {
+    setMode(queryMode);
+    return;
+  }
+  setMode(storedMode === "professor" ? "professor" : "public");
+}
+
+function setMode(mode) {
+  const next = mode === "professor" ? "professor" : "public";
+  state.mode = next;
+  document.body.dataset.mode = next;
+  localStorage.setItem(CONFIG.modeStorageKey, next);
+  document.getElementById("publicModeBtn").setAttribute("aria-pressed", String(next === "public"));
+  document.getElementById("professorModeBtn").setAttribute("aria-pressed", String(next === "professor"));
+  const url = new URL(location.href);
+  url.searchParams.set("mode", next);
+  history.replaceState({}, "", url.toString());
+}
+
+function bindMessageForm() {
+  const form = document.getElementById("messageForm");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const draft = collectMessageDraft();
+    if (!draft.message) {
+      setStatus("messageFormStatus", "メッセージ本文は必須です。", "warn");
+      return;
+    }
+    const entry = createMessageEntry(draft, "local-submit");
+    addMessage(entry);
+    renderMessages();
+    setStatus("messageFormStatus", "送信しました。受信メッセージに反映済みです。", "ok");
+    const link = buildShareLinkFromEntry(entry);
+    state.pendingDraftForShare = entry;
+    document.getElementById("shareLinkBox").textContent = link;
+    form.reset();
   });
-  show(0);
+
+  document.getElementById("copyShareLinkBtn").addEventListener("click", async () => {
+    const draft = collectMessageDraft();
+    const baseEntry = draft.message ? createMessageEntry(draft, "share-link") : state.pendingDraftForShare;
+    if (!baseEntry || !baseEntry.message) {
+      setStatus("messageFormStatus", "先にメッセージを入力して共有リンクを作成してください。", "warn");
+      return;
+    }
+    const link = buildShareLinkFromEntry(baseEntry);
+    document.getElementById("shareLinkBox").textContent = link;
+    try {
+      await navigator.clipboard.writeText(link);
+      setStatus("messageFormStatus", "共有リンクをコピーしました。", "ok");
+    } catch (error) {
+      setStatus("messageFormStatus", "コピーに失敗しました。リンクを手動で共有してください。", "warn");
+    }
+  });
 }
-function show(i){
-  const p = papers[i];
-  mainTitle.textContent = p.title;
-  mainAbstract.textContent = p.abstract;
-  document.getElementById('pjTitle').textContent = p.title;
-  document.getElementById('pjAbstract').textContent = p.abstract;
+
+function collectMessageDraft() {
+  return {
+    name: sanitizeText(document.getElementById("senderNameInput").value, CONFIG.maxNameLength) || "匿名",
+    affiliation: sanitizeText(document.getElementById("senderAffiliationInput").value, CONFIG.maxAffiliationLength),
+    message: sanitizeText(document.getElementById("messageInput").value, CONFIG.maxMessageLength, true)
+  };
 }
 
-/* navigation */
-document.getElementById('next').onclick = ()=>{ idx=(idx+1)%papers.length; show(idx); };
-document.getElementById('prev').onclick = ()=>{ idx=(idx-1+papers.length)%papers.length; show(idx); };
+function createMessageEntry(draft, source) {
+  const now = new Date();
+  return {
+    id: "msg-" + now.getTime().toString(36) + "-" + Math.random().toString(36).slice(2, 8),
+    name: draft.name || "匿名",
+    affiliation: draft.affiliation || "",
+    message: draft.message || "",
+    source: source || "local",
+    createdAt: now.toISOString(),
+    createdLabel: formatDateTime(now)
+  };
+}
 
-/* projector */
-document.getElementById('projectorBtn').onclick = ()=>{ document.getElementById('projector').style.display='block'; };
-document.getElementById('closePJ').onclick = ()=>{ document.getElementById('projector').style.display='none'; };
+function addMessage(entry) {
+  if (!entry || !entry.message) return;
+  if (state.messages.some((msg) => msg.id === entry.id)) return;
+  state.messages.push(entry);
+  state.messages.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+  if (state.messages.length > CONFIG.maxMessages) {
+    state.messages = state.messages.slice(state.messages.length - CONFIG.maxMessages);
+  }
+  saveMessages();
+}
 
-/* highlight: projector を開く */
-document.getElementById('highlight').onclick = ()=>{ document.getElementById('projector').style.display='block'; };
+function saveMessages() {
+  localStorage.setItem(CONFIG.messageStorageKey, JSON.stringify(state.messages));
+}
 
-/* fetch comments from CSV published sheet (simple parser) */
-async function fetchComments(){
-  if(!SHEET_CSV_URL || SHEET_CSV_URL.includes('SHEET_CSV_URL')){ commentsList.innerHTML = '<div class="small">コメント用CSVの URL を設定してください（index.html 内の SHEET_CSV_URL を編集）。</div>'; return; }
-  try{
-    const res = await fetch(SHEET_CSV_URL);
-    const txt = await res.text();
-    // CSV を簡易パース（カンマ区切り、ダブルクオート簡易除去）
-    const rows = txt.trim().split('\n').map(r=>parseCSVLine(r));
-    if(rows.length<=1){ commentsList.innerHTML = '<div class="small">まだメッセージはありません。</div>'; return; }
-    const header = rows[0].map(h=>h.toLowerCase());
-    const nameIdx = header.findIndex(h=>h.includes('name')||h.includes('お名前')||h.includes('氏名')) ;
-    const msgIdx = header.findIndex(h=>h.includes('message')||h.includes('メッセージ')||h.includes('comment')||h.includes('ご意見')) ;
-    const data = rows.slice(1).map(r=>{
-      const name = (nameIdx>=0 && r[nameIdx]) ? r[nameIdx] : '匿名';
-      const msg = (msgIdx>=0 && r[msgIdx]) ? r[msgIdx] : r.slice(1).join(' ');
-      return {name, msg};
+function loadMessages() {
+  try {
+    const raw = localStorage.getItem(CONFIG.messageStorageKey);
+    state.messages = raw ? JSON.parse(raw) : [];
+  } catch (error) {
+    console.warn("message load failed", error);
+    state.messages = [];
+  }
+}
+
+function renderMessages() {
+  const list = document.getElementById("messageList");
+  if (!state.messages.length) {
+    list.innerHTML = "<div class=\"message\"><div class=\"meta\">まだメッセージはありません。</div></div>";
+    setStatus("messageStatus", "メッセージを待機中です。", "warn");
+    return;
+  }
+  const latest = state.messages.slice(-10).reverse();
+  list.innerHTML = latest.map((msg) => {
+    const affiliation = msg.affiliation ? "（" + escapeHtml(msg.affiliation) + "）" : "";
+    return (
+      "<article class=\"message\">" +
+      "<div class=\"name\">" + escapeHtml(msg.name) + affiliation + "</div>" +
+      "<div style=\"margin-top:4px\">" + escapeHtml(msg.message) + "</div>" +
+      "<div class=\"meta\">" + escapeHtml(msg.createdLabel || formatDateTime(new Date(msg.createdAt))) + " / " + escapeHtml(msg.source || "local") + "</div>" +
+      "</article>"
+    );
+  }).join("");
+  setStatus("messageStatus", "全 " + state.messages.length + " 件のうち最新 " + latest.length + " 件を表示しています。", "ok");
+}
+
+function bindProfessorTools() {
+  document.getElementById("importBtn").addEventListener("click", () => {
+    const raw = document.getElementById("importInput").value.trim();
+    if (!raw) {
+      setStatus("professorStatus", "共有リンクまたは共有コードを入力してください。", "warn");
+      return;
+    }
+    const imported = importFromRawString(raw);
+    if (imported) {
+      renderMessages();
+      setStatus("professorStatus", "メッセージを取り込みました。", "ok");
+      document.getElementById("importInput").value = "";
+    } else {
+      setStatus("professorStatus", "取り込みに失敗しました。リンク形式を確認してください。", "danger");
+    }
+  });
+
+  document.getElementById("exportJsonBtn").addEventListener("click", () => {
+    downloadTextFile("yoshihara-messages.json", JSON.stringify(state.messages, null, 2), "application/json");
+    setStatus("professorStatus", "JSONを保存しました。", "ok");
+  });
+
+  document.getElementById("exportCsvBtn").addEventListener("click", () => {
+    const rows = [["id", "name", "affiliation", "message", "source", "createdAt"]];
+    state.messages.forEach((msg) => rows.push([msg.id, msg.name, msg.affiliation, msg.message, msg.source, msg.createdAt]));
+    const csv = rows.map((row) => row.map(csvEscape).join(",")).join("\n");
+    downloadTextFile("yoshihara-messages.csv", csv, "text/csv");
+    setStatus("professorStatus", "CSVを保存しました。", "ok");
+  });
+
+  document.getElementById("clearMessagesBtn").addEventListener("click", () => {
+    const ok = window.confirm("保存済みメッセージをすべて削除します。よろしいですか？");
+    if (!ok) return;
+    state.messages = [];
+    saveMessages();
+    renderMessages();
+    setStatus("professorStatus", "メッセージを全削除しました。", "ok");
+  });
+}
+
+function processImportFromUrl() {
+  const url = new URL(location.href);
+  const raw = url.searchParams.get("import");
+  if (!raw) return;
+  const imported = importPayload(raw, "shared-link");
+  if (imported) {
+    setMode("professor");
+    setStatus("professorStatus", "共有リンクからメッセージを取り込みました。", "ok");
+  }
+  url.searchParams.delete("import");
+  history.replaceState({}, "", url.toString());
+}
+
+function importFromRawString(raw) {
+  try {
+    if (raw.startsWith("http://") || raw.startsWith("https://")) {
+      const url = new URL(raw);
+      const token = url.searchParams.get("import");
+      if (!token) return false;
+      return importPayload(token, "shared-link");
+    }
+    return importPayload(raw, "manual-code");
+  } catch (error) {
+    console.warn(error);
+    return false;
+  }
+}
+
+function importPayload(token, source) {
+  try {
+    if (!token || token.length > CONFIG.maxImportTokenLength) return false;
+    const jsonText = decodeBase64Url(token);
+    const payload = JSON.parse(jsonText);
+    if (!payload || !payload.message) return false;
+    const entry = {
+      id: payload.id || ("msg-" + Date.now().toString(36) + "-import"),
+      name: sanitizeText(payload.name || "匿名", CONFIG.maxNameLength),
+      affiliation: sanitizeText(payload.affiliation || "", CONFIG.maxAffiliationLength),
+      message: sanitizeText(payload.message, CONFIG.maxMessageLength, true),
+      source: source,
+      createdAt: payload.createdAt || new Date().toISOString(),
+      createdLabel: payload.createdLabel || formatDateTime(new Date(payload.createdAt || Date.now()))
+    };
+    if (!entry.message) return false;
+    addMessage(entry);
+    return true;
+  } catch (error) {
+    console.warn(error);
+    return false;
+  }
+}
+
+function buildShareLinkFromEntry(entry) {
+  const payload = {
+    id: entry.id,
+    name: entry.name,
+    affiliation: entry.affiliation,
+    message: entry.message,
+    createdAt: entry.createdAt,
+    createdLabel: entry.createdLabel
+  };
+  const url = new URL(location.href);
+  url.searchParams.set("mode", "professor");
+  const token = encodeBase64Url(JSON.stringify(payload));
+  url.searchParams.set("import", token);
+  const nextUrl = url.toString();
+  if (nextUrl.length > 1800) {
+    // URL length overflow対策: 長文時は共有コードを使う
+    return "共有コード:\n" + token;
+  }
+  return nextUrl;
+}
+
+function encodeBase64Url(text) {
+  return btoa(unescape(encodeURIComponent(text))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function decodeBase64Url(value) {
+  const padded = value.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((value.length + 3) % 4);
+  return decodeURIComponent(escape(atob(padded)));
+}
+
+function bindWorkRefreshButton() {
+  document.getElementById("refreshWorksBtn").addEventListener("click", () => refreshPublications());
+}
+
+function scheduleWorksRefresh() {
+  if (state.worksTimer) clearInterval(state.worksTimer);
+  state.worksTimer = setInterval(refreshPublications, CONFIG.worksRefreshMs);
+}
+
+async function refreshPublications() {
+  setStatus("worksStatus", "文献を更新しています...", "warn");
+  const [author, openAlexWorks, crossrefWorks] = await Promise.all([
+    fetchOpenAlexAuthor(),
+    fetchOpenAlexWorks(),
+    fetchCrossrefWorks()
+  ]);
+  if (author) {
+    document.getElementById("worksCount").textContent = numberOrDash(author.works_count);
+    document.getElementById("citationCount").textContent = numberOrDash(author.cited_by_count);
+    document.getElementById("hIndex").textContent = numberOrDash(author.summary_stats && author.summary_stats.h_index);
+  }
+  const merged = mergeWorks(openAlexWorks, crossrefWorks).slice(0, CONFIG.maxWorks);
+  state.works = merged;
+  renderWorks();
+  if (!merged.length) {
+    setStatus("worksStatus", "文献を取得できませんでした。通信状態を確認してください。", "danger");
+    return;
+  }
+  document.getElementById("lastSync").textContent = formatDateTime(new Date());
+  setStatus("worksStatus", "文献を同期しました（" + merged.length + "件表示）。", "ok");
+}
+
+function renderWorks() {
+  const list = document.getElementById("worksList");
+  if (!state.works.length) {
+    list.innerHTML = "<div class=\"panel\"><p>文献情報を表示できませんでした。</p></div>";
+    return;
+  }
+  list.innerHTML = state.works.map((item) => {
+    const authors = item.authors && item.authors.length ? item.authors.join(", ") : "著者情報なし";
+    const doi = item.doi ? "<a href=\"https://doi.org/" + escapeHtml(item.doi) + "\" target=\"_blank\" rel=\"noopener noreferrer\">doi:" + escapeHtml(item.doi) + "</a>" : "DOI未登録";
+    return (
+      "<article class=\"work\">" +
+      "<h3>" + escapeHtml(item.title) + "</h3>" +
+      "<div class=\"work-meta\"><span class=\"badge\">" + escapeHtml(item.source) + "</span> " +
+      escapeHtml(String(item.year || "年不明")) + " / " + escapeHtml(item.venue || "掲載誌不明") + "</div>" +
+      "<div class=\"work-meta\">" + escapeHtml(authors) + "</div>" +
+      "<div class=\"work-meta\">" + doi + "</div>" +
+      "</article>"
+    );
+  }).join("");
+}
+
+async function fetchOpenAlexAuthor() {
+  const url = "https://api.openalex.org/authors/" + encodeURIComponent(CONFIG.openAlexAuthorId) +
+    "?mailto=" + encodeURIComponent(CONFIG.openAlexMailto);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("openalex author");
+    return await response.json();
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+}
+
+async function fetchOpenAlexWorks() {
+  const url = "https://api.openalex.org/works?filter=author.id:" + encodeURIComponent(CONFIG.openAlexAuthorId) +
+    "&sort=publication_date:desc&per-page=" + encodeURIComponent(String(CONFIG.maxWorks)) +
+    "&mailto=" + encodeURIComponent(CONFIG.openAlexMailto);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("openalex works");
+    const payload = await response.json();
+    return (payload.results || []).map((item) => ({
+      title: item.display_name || "Untitled",
+      year: item.publication_year || "",
+      date: item.publication_date || String(item.publication_year || ""),
+      venue: item.primary_location && item.primary_location.source ? item.primary_location.source.display_name : "OpenAlex",
+      doi: normalizeDoi(item.doi || (item.ids ? item.ids.doi : "")),
+      authors: (item.authorships || []).slice(0, 4).map((a) => a.author && a.author.display_name).filter(Boolean),
+      source: "OpenAlex"
+    }));
+  } catch (error) {
+    console.warn(error);
+    return [];
+  }
+}
+
+async function fetchCrossrefWorks() {
+  const url = "https://api.crossref.org/works?query=" + encodeURIComponent(CONFIG.crossrefQuery) +
+    "&rows=" + encodeURIComponent(String(CONFIG.maxWorks)) +
+    "&sort=published&order=desc" +
+    "&mailto=" + encodeURIComponent(CONFIG.openAlexMailto);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("crossref");
+    const payload = await response.json();
+    return (payload.message && payload.message.items ? payload.message.items : []).map((item) => ({
+      title: item.title && item.title.length ? item.title[0] : "Untitled",
+      year: extractCrossrefYear(item),
+      date: String(extractCrossrefYear(item) || ""),
+      venue: item["container-title"] && item["container-title"].length ? item["container-title"][0] : "Crossref",
+      doi: normalizeDoi(item.DOI || ""),
+      authors: (item.author || []).slice(0, 4).map((a) => ((a.given || "") + " " + (a.family || "")).trim()).filter(Boolean),
+      source: "Crossref"
+    }));
+  } catch (error) {
+    console.warn(error);
+    return [];
+  }
+}
+
+function mergeWorks(openAlexWorks, crossrefWorks) {
+  const merged = [];
+  const seen = new Set();
+  [openAlexWorks, crossrefWorks].forEach((group) => {
+    group.forEach((item) => {
+      const key = item.doi || item.title.toLowerCase().replace(/\s+/g, " ").trim();
+      if (seen.has(key)) return;
+      seen.add(key);
+      merged.push(item);
     });
-    renderComments(data);
-  }catch(e){
-    console.error(e);
-    commentsList.innerHTML = '<div class="small">コメントの取得に失敗しました（CSV URL を確認してください）。</div>';
-  }
+  });
+  merged.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  return merged;
 }
-function renderComments(arr){
-  if(!arr.length){ commentsList.innerHTML = '<div class="small">まだメッセージはありません。</div>'; return; }
-  commentsList.innerHTML = arr.map(c=>`<div class="comment-item"><div style="font-weight:700">${escapeHtml(c.name)}</div><div class="small" style="margin-top:6px">${escapeHtml(c.msg)}</div></div>`).join('');
-}
-function parseCSVLine(line){
-  // 非完全なCSVパーサだが Google 公開CSV には十分
-  const parts = [];
-  let cur=''; let inQ=false;
-  for(let i=0;i<line.length;i++){
-    const ch=line[i];
-    if(ch==='\"'){ inQ=!inQ; continue; }
-    if(ch===',' && !inQ){ parts.push(cur); cur=''; continue; }
-    cur+=ch;
-  }
-  parts.push(cur);
-  return parts.map(s=>s.trim());
-}
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-/* init */
-renderPapers();
-fetchComments();
-setInterval(fetchComments, 8000);
+function normalizeDoi(doi) {
+  if (!doi) return "";
+  return String(doi).replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").trim();
+}
 
-/* keyboard nav */
-document.addEventListener('keydown', (e)=>{
-  if(e.key==='ArrowRight') { idx=(idx+1)%papers.length; show(idx); }
-  if(e.key==='ArrowLeft') { idx=(idx-1+papers.length)%papers.length; show(idx); }
-  if(e.key==='Escape') document.getElementById('projector').style.display='none';
-});
+function extractCrossrefYear(item) {
+  const nodes = [item.published, item["published-print"], item["published-online"], item.created];
+  for (let i = 0; i < nodes.length; i += 1) {
+    const parts = nodes[i] && nodes[i]["date-parts"] && nodes[i]["date-parts"][0];
+    if (parts && parts.length) return parts[0];
+  }
+  return "";
+}
+
+function downloadTextFile(filename, text, mime) {
+  const blob = new Blob([text], { type: mime + ";charset=utf-8" });
+  const href = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = href;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(href);
+}
+
+function csvEscape(value) {
+  const text = String(value == null ? "" : value);
+  if (/[",\n]/.test(text)) return "\"" + text.replace(/"/g, "\"\"") + "\"";
+  return text;
+}
+
+function sanitizeText(value, maxLength, allowMultiline) {
+  const raw = String(value == null ? "" : value).replace(/\u0000/g, "");
+  const normalized = allowMultiline ? raw.replace(/\r/g, "") : raw.replace(/[\r\n\t]/g, " ");
+  return normalized.trim().slice(0, maxLength);
+}
+
+function setStatus(id, message, kind) {
+  const node = document.getElementById(id);
+  node.textContent = message;
+  node.className = "status" + (kind ? " " + kind : "");
+}
+
+function formatDateTime(date) {
+  const d = new Date(date);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  const hh = String(d.getHours()).padStart(2, "0");
+  const mi = String(d.getMinutes()).padStart(2, "0");
+  return yyyy + "/" + mm + "/" + dd + " " + hh + ":" + mi;
+}
+
+function numberOrDash(value) {
+  if (typeof value !== "number") return "--";
+  return value.toLocaleString("ja-JP");
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
 </script>
 </body>
 </html>
