@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<script src="./config.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 :root {
@@ -483,8 +484,6 @@ const CONFIG = {
   requestStorageKey: "yoshihara-fix-requests-v1",
   contentStorageKey: "yoshihara-content-overrides-v1",
   ownerEmailStorageKey: "yoshihara-owner-email-v1",
-  googleClientIdStorageKey: "yoshihara-google-client-id-v1",
-  googleClientId: "",
   professorDomain: "gunma-u.ac.jp",
   professorLocalPattern: /yoshihara/i,
   openAlexAuthorId: "A5069986511",
@@ -1210,10 +1209,10 @@ function extractCrossrefYear(item) {
 }
 
 function initGoogleAuth() {
-  const configured = window.APP_GOOGLE_CLIENT_ID || localStorage.getItem(CONFIG.googleClientIdStorageKey) || CONFIG.googleClientId;
+  const configured = window.APP_CONFIG && window.APP_CONFIG.googleClientId;
   state.googleClientId = sanitizeText(configured || "", 256, false);
   if (!state.googleClientId) {
-    setStatus("authStatus", "Googleログインを使うには、`window.APP_GOOGLE_CLIENT_ID` か localStorage に Client ID 設定が必要です。", "warn");
+    setStatus("authStatus", "Googleログインを使うには `config.js` に Google Client ID の設定が必要です。", "warn");
     return;
   }
   if (!(window.google && google.accounts && google.accounts.id)) {

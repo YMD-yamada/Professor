@@ -55,10 +55,22 @@
 このページは Google Identity Services を利用します。公開前に Google OAuth クライアントID（Web）を準備してください。
 
 1. Google Cloud で OAuth クライアントID（Web）を作成
-2. 許可済みJavaScript生成元に公開URLを追加（例: `https://ymd-yamada.github.io`）
-3. 下記のいずれかで `CLIENT_ID` を設定
-   - `index.html` で `window.APP_GOOGLE_CLIENT_ID` を注入
-   - またはブラウザの localStorage に `yoshihara-google-client-id-v1` を保存
+2. 許可済みJavaScript生成元に公開URLを追加
+   - 例: `https://ymd-yamada.github.io`
+3. 許可済みリダイレクトURIが必要な場合は Pages URL を追加
+4. `config.js` を開き、`googleClientId` に取得した Client ID を設定
+
+```js
+window.APP_CONFIG = {
+  googleClientId: "YOUR_GOOGLE_CLIENT_ID"
+};
+```
+
+### 本番向けの扱い
+
+- `config.js` は **Client ID 専用** として分離してあります
+- Google Client ID は秘密情報ではないため、静的サイトに置いて問題ありません
+- アプリ本体 (`index.html`) を触らず、`config.js` のみ差し替えれば設定変更できます
 
 ## 教授からの修正依頼フロー（承認付き）
 
