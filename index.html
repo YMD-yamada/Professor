@@ -161,7 +161,7 @@ a { color: var(--brand); }
 .status.danger { color: var(--danger); font-weight: 700; }
 .field { display: grid; gap: 6px; margin-top: 10px; }
 label { font-size: 13px; color: var(--muted); font-weight: 700; }
-input, textarea {
+input, textarea, select {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -171,6 +171,45 @@ input, textarea {
   background: #fff;
 }
 textarea { min-height: 86px; resize: vertical; }
+.lock-note {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--warn);
+}
+.request-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.request-item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f9fcff;
+  padding: 10px;
+}
+.request-item h3 {
+  margin: 0;
+  font-size: 14px;
+}
+.request-meta {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 11px;
+  padding: 2px 8px;
+  border: 1px solid #c2d8ec;
+  background: #eef6ff;
+  color: #2d5578;
+}
+.status-chip.pending { border-color: #ffd6a8; background: #fff4e8; color: #9a4a05; }
+.status-chip.approved { border-color: #bfe8d8; background: #ecfff7; color: #0b6e56; }
+.status-chip.applied { border-color: #bdd2f3; background: #edf4ff; color: #244f8a; }
+.status-chip.rejected { border-color: #f5c2c5; background: #fff0f1; color: #9d2530; }
 .btn-row {
   margin-top: 10px;
   display: flex;
@@ -249,12 +288,13 @@ body[data-mode="professor"] .public-only { display: none; }
       <button id="publicModeBtn" type="button" aria-pressed="true">第三者向け</button>
       <button id="professorModeBtn" type="button" aria-pressed="false">教授向け管理</button>
     </div>
+    <div class="capsule" id="sessionRoleChip">認証状態: 未認証</div>
   </header>
 
   <section class="hero" aria-label="教授紹介">
     <div class="capsule">光化学 × バイオイメージング / 文献は自動更新</div>
     <h1>吉原 利忠 教授（Toshitada YOSHIHARA）</h1>
-    <p>
+    <p id="heroDescription">
       群馬大学大学院理工学府 物質・環境部門 教授。光と物質の相互作用を分子レベルで解明し、
       酸素や脂質など生命現象の可視化へつながる発光プローブ分子を開発。
     </p>
@@ -274,11 +314,11 @@ body[data-mode="professor"] .public-only { display: none; }
         <div class="grid2">
           <article class="panel">
             <h3>専門領域</h3>
-            <p>光化学、バイオイメージング、りん光性材料、酸素センシング、機能性発光分子。</p>
+            <p id="profileSpecialtyText">光化学、バイオイメージング、りん光性材料、酸素センシング、機能性発光分子。</p>
           </article>
           <article class="panel">
             <h3>研究の価値</h3>
-            <p>がん・虚血など酸素分圧が関わる病態の理解や診断支援につながる可視化技術を推進。</p>
+            <p id="profileValueText">がん・虚血など酸素分圧が関わる病態の理解や診断支援につながる可視化技術を推進。</p>
           </article>
         </div>
       </section>
@@ -325,12 +365,24 @@ body[data-mode="professor"] .public-only { display: none; }
         <p class="sub">Googleフォーム不要。ここから直接投稿できます。</p>
         <form id="messageForm">
           <div class="field">
+            <label for="senderRoleInput">投稿者種別</label>
+            <select id="senderRoleInput">
+              <option value="third-party">第三者（通常）</option>
+              <option value="professor">教授本人（認証付き）</option>
+            </select>
+            <div class="sub">教授本人として投稿する場合は教授認証コードが必要です。</div>
+          </div>
+          <div class="field">
             <label for="senderNameInput">お名前（任意）</label>
             <input id="senderNameInput" maxlength="80" placeholder="例: 山田 太郎" />
           </div>
           <div class="field">
             <label for="senderAffiliationInput">所属（任意）</label>
             <input id="senderAffiliationInput" maxlength="120" placeholder="例: 群馬大学 理工学府" />
+          </div>
+          <div class="field" id="senderProofField" hidden>
+            <label for="senderProofInput">教授認証コード</label>
+            <input id="senderProofInput" type="password" autocomplete="off" placeholder="教授のみ入力" />
           </div>
           <div class="field">
             <label for="messageInput">メッセージ（必須）</label>
@@ -354,7 +406,38 @@ body[data-mode="professor"] .public-only { display: none; }
       </section>
 
       <section class="card professor-only">
-        <h2>教授向け管理</h2>
+        <h2>教授向け認証・管理</h2>
+        <p class="sub">なりすまし防止のため、教授管理操作は認証後のみ有効です。</p>
+        <div class="field">
+          <label for="professorAuthCodeInput">教授認証コード（ログイン用）</label>
+          <input id="professorAuthCodeInput" type="password" autocomplete="off" placeholder="教授認証コードを入力" />
+        </div>
+        <div class="field">
+          <label for="ownerApprovalCodeInput">管理者承認コード（オーナー承認用）</label>
+          <input id="ownerApprovalCodeInput" type="password" autocomplete="off" placeholder="管理者承認コードを入力" />
+        </div>
+        <div class="btn-row">
+          <button type="button" id="professorLoginBtn" class="primary">教授ログイン</button>
+          <button type="button" id="ownerVerifyBtn" class="ghost">承認者ログイン</button>
+          <button type="button" id="professorLogoutBtn" class="ghost">ログアウト</button>
+        </div>
+        <div class="field">
+          <label for="newProfessorCodeInput">新しい教授認証コード（12文字以上）</label>
+          <input id="newProfessorCodeInput" type="password" autocomplete="off" placeholder="初期設定または更新" />
+        </div>
+        <div class="field">
+          <label for="newOwnerCodeInput">新しい管理者承認コード（12文字以上）</label>
+          <input id="newOwnerCodeInput" type="password" autocomplete="off" placeholder="初期設定または更新" />
+        </div>
+        <div class="btn-row">
+          <button type="button" id="saveAuthCodesBtn" class="ghost">認証コードを設定/更新</button>
+        </div>
+        <div class="lock-note">公開前に必ず認証コードを変更してください。初期値のままだと成りすましリスクがあります。</div>
+        <div id="authStatus" class="status"></div>
+      </section>
+
+      <section class="card professor-only">
+        <h2>教授向けデータ管理</h2>
         <p class="sub">共有リンク/コード取り込み、バックアップ保存、削除が可能です。</p>
         <div class="field">
           <label for="importInput">共有リンクまたは共有コードを貼り付け</label>
@@ -368,10 +451,55 @@ body[data-mode="professor"] .public-only { display: none; }
         </div>
         <div id="professorStatus" class="status"></div>
       </section>
+
+      <section class="card professor-only">
+        <h2>教授からのアプリ修正依頼</h2>
+        <p class="sub">依頼を登録すると自動で修正タスク案を生成し、管理者承認後のみ適用状態へ進めます。</p>
+        <div class="field">
+          <label for="requestTitleInput">依頼タイトル</label>
+          <input id="requestTitleInput" maxlength="120" placeholder="例: 研究テーマの説明文を追記したい" />
+        </div>
+        <div class="field">
+          <label for="requestBodyInput">依頼内容</label>
+          <textarea id="requestBodyInput" maxlength="4000" placeholder="背景、変更したい箇所、期待する表示を具体的に記載"></textarea>
+        </div>
+        <div class="field">
+          <label for="requestPriorityInput">優先度</label>
+          <select id="requestPriorityInput">
+            <option value="high">高</option>
+            <option value="medium" selected>中</option>
+            <option value="low">低</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="requestTargetInput">自動修正対象</label>
+          <select id="requestTargetInput">
+            <option value="heroDescription" selected>ヒーロー説明文</option>
+            <option value="profileSpecialty">専門領域テキスト</option>
+            <option value="profileValue">研究の価値テキスト</option>
+            <option value="footerNote">フッターノート</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="requestProposedTextInput">変更後テキスト（自動修正用）</label>
+          <textarea id="requestProposedTextInput" maxlength="4000" placeholder="承認後に反映したい文面を入力してください"></textarea>
+        </div>
+        <div class="btn-row">
+          <button type="button" id="submitRequestBtn" class="primary">修正依頼を登録</button>
+        </div>
+        <div id="requestStatus" class="status"></div>
+        <div class="code-box" id="requestShareBox">依頼共有リンクはここに表示されます。</div>
+      </section>
+
+      <section class="card professor-only">
+        <h2>修正依頼キュー（承認フロー）</h2>
+        <p class="sub">状態: 受付 → 承認待ち → 承認済み → 適用済み。承認操作は管理者ログイン後のみ有効です。</p>
+        <div class="request-list" id="requestList"></div>
+      </section>
     </aside>
   </div>
 
-  <p class="footer">
+  <p class="footer" id="footerNote">
     Googleフォーム/スプレッドシートに依存しない設計です。文献情報はAPIから自動更新、
     メッセージはページ内で即時運用できます。
   </p>
@@ -381,15 +509,23 @@ body[data-mode="professor"] .public-only { display: none; }
 const CONFIG = {
   modeStorageKey: "yoshihara-profile-mode-v3",
   messageStorageKey: "yoshihara-messages-v1",
+  requestStorageKey: "yoshihara-fix-requests-v1",
+  authStorageKey: "yoshihara-auth-codes-v1",
+  contentStorageKey: "yoshihara-content-overrides-v1",
   openAlexAuthorId: "A5069986511",
   crossrefQuery: "Toshitada Yoshihara Gunma University oxygen imaging iridium",
   worksRefreshMs: 15 * 60 * 1000,
   maxWorks: 12,
   maxMessages: 200,
+  maxRequests: 120,
   maxNameLength: 80,
   maxAffiliationLength: 120,
   maxMessageLength: 2000,
+  maxRequestTitleLength: 120,
+  maxRequestBodyLength: 4000,
   maxImportTokenLength: 12000,
+  defaultProfessorCode: "gunma-yoshihara-admin",
+  defaultOwnerCode: "change-owner-code-now",
   openAlexMailto: "research-portal@example.com"
 };
 
@@ -408,10 +544,21 @@ const THEMES = [
   { title: "診断・医工学応用", body: "酸素分圧の可視化を通じて、病態の理解や診断支援への応用可能性を追求。" }
 ];
 
+const CONTENT_TARGETS = {
+  heroDescription: { id: "heroDescription", label: "ヒーロー説明文" },
+  profileSpecialty: { id: "profileSpecialtyText", label: "専門領域テキスト" },
+  profileValue: { id: "profileValueText", label: "研究の価値テキスト" },
+  footerNote: { id: "footerNote", label: "フッターノート" }
+};
+
 const state = {
   mode: "public",
   works: [],
   messages: [],
+  requests: [],
+  contentOverrides: {},
+  authCodes: null,
+  authSession: { professor: false, owner: false },
   worksTimer: null,
   pendingDraftForShare: null
 };
@@ -423,11 +570,19 @@ function init() {
   bindModeButtons();
   bindMessageForm();
   bindProfessorTools();
+  bindRequestTools();
   bindWorkRefreshButton();
+  state.authCodes = loadAuthCodes();
   loadMode();
   loadMessages();
-  processImportFromUrl();
+  loadRequests();
+  loadContentOverrides();
+  applyContentOverrides();
+  processMessageImportFromUrl();
+  processRequestImportFromUrl();
   renderMessages();
+  renderRequests();
+  updateSessionIndicators();
   refreshPublications();
   scheduleWorksRefresh();
 }
@@ -464,7 +619,7 @@ function setMode(mode) {
   localStorage.setItem(CONFIG.modeStorageKey, next);
   document.getElementById("publicModeBtn").setAttribute("aria-pressed", String(next === "public"));
   document.getElementById("professorModeBtn").setAttribute("aria-pressed", String(next === "professor"));
-  const url = new URL(location.href);
+  const url = buildBaseUrl();
   url.searchParams.set("mode", next);
   history.replaceState({}, "", url.toString());
 }
@@ -478,11 +633,11 @@ function bindMessageForm() {
       setStatus("messageFormStatus", "メッセージ本文は必須です。", "warn");
       return;
     }
-    const entry = createMessageEntry(draft, "local-submit");
+    const entry = createMessageEntry(draft, "visitor-unverified");
     addMessage(entry);
     renderMessages();
     setStatus("messageFormStatus", "送信しました。受信メッセージに反映済みです。", "ok");
-    const link = buildShareLinkFromEntry(entry);
+    const link = buildMessageShareLink(entry);
     state.pendingDraftForShare = entry;
     document.getElementById("shareLinkBox").textContent = link;
     form.reset();
@@ -490,12 +645,12 @@ function bindMessageForm() {
 
   document.getElementById("copyShareLinkBtn").addEventListener("click", async () => {
     const draft = collectMessageDraft();
-    const baseEntry = draft.message ? createMessageEntry(draft, "share-link") : state.pendingDraftForShare;
+    const baseEntry = draft.message ? createMessageEntry(draft, "visitor-unverified") : state.pendingDraftForShare;
     if (!baseEntry || !baseEntry.message) {
       setStatus("messageFormStatus", "先にメッセージを入力して共有リンクを作成してください。", "warn");
       return;
     }
-    const link = buildShareLinkFromEntry(baseEntry);
+    const link = buildMessageShareLink(baseEntry);
     document.getElementById("shareLinkBox").textContent = link;
     try {
       await navigator.clipboard.writeText(link);
@@ -521,7 +676,7 @@ function createMessageEntry(draft, source) {
     name: draft.name || "匿名",
     affiliation: draft.affiliation || "",
     message: draft.message || "",
-    source: source || "local",
+    source: source || "visitor-unverified",
     createdAt: now.toISOString(),
     createdLabel: formatDateTime(now)
   };
@@ -566,21 +721,104 @@ function renderMessages() {
       "<article class=\"message\">" +
       "<div class=\"name\">" + escapeHtml(msg.name) + affiliation + "</div>" +
       "<div style=\"margin-top:4px\">" + escapeHtml(msg.message) + "</div>" +
-      "<div class=\"meta\">" + escapeHtml(msg.createdLabel || formatDateTime(new Date(msg.createdAt))) + " / " + escapeHtml(msg.source || "local") + "</div>" +
+      "<div class=\"meta\">" +
+      escapeHtml(msg.createdLabel || formatDateTime(new Date(msg.createdAt))) +
+      " / " + escapeHtml(formatSourceLabel(msg.source)) +
+      "</div>" +
       "</article>"
     );
   }).join("");
   setStatus("messageStatus", "全 " + state.messages.length + " 件のうち最新 " + latest.length + " 件を表示しています。", "ok");
 }
 
+function formatSourceLabel(source) {
+  if (source === "visitor-unverified") return "第三者投稿（未認証）";
+  if (source === "shared-link") return "共有リンク経由（未認証）";
+  if (source === "manual-code") return "共有コード経由（未認証）";
+  return source || "不明";
+}
+
 function bindProfessorTools() {
+  document.getElementById("professorLoginBtn").addEventListener("click", () => {
+    const code = sanitizeText(document.getElementById("professorAuthCodeInput").value, 128, false);
+    if (!verifyCode(code, state.authCodes.professorHash)) {
+      setStatus("authStatus", "教授認証コードが一致しません。", "danger");
+      return;
+    }
+    state.authSession.professor = true;
+    document.getElementById("professorAuthCodeInput").value = "";
+    setStatus("authStatus", "教授としてログインしました。", "ok");
+    updateSessionIndicators();
+  });
+
+  document.getElementById("ownerVerifyBtn").addEventListener("click", () => {
+    const code = sanitizeText(document.getElementById("ownerApprovalCodeInput").value, 128, false);
+    if (!verifyCode(code, state.authCodes.ownerHash)) {
+      setStatus("authStatus", "管理者承認コードが一致しません。", "danger");
+      return;
+    }
+    state.authSession.owner = true;
+    document.getElementById("ownerApprovalCodeInput").value = "";
+    setStatus("authStatus", "管理者承認者としてログインしました。", "ok");
+    updateSessionIndicators();
+    renderRequests();
+  });
+
+  document.getElementById("professorLogoutBtn").addEventListener("click", () => {
+    state.authSession.professor = false;
+    state.authSession.owner = false;
+    setStatus("authStatus", "ログアウトしました。", "warn");
+    updateSessionIndicators();
+    renderRequests();
+  });
+
+  document.getElementById("saveAuthCodesBtn").addEventListener("click", () => {
+    if (!state.authSession.owner) {
+      setStatus("authStatus", "認証コードの更新は管理者承認者ログイン後のみ可能です。", "danger");
+      return;
+    }
+    const newProfessorCode = sanitizeText(document.getElementById("newProfessorCodeInput").value, 256, false);
+    const newOwnerCode = sanitizeText(document.getElementById("newOwnerCodeInput").value, 256, false);
+    let changed = false;
+    if (newProfessorCode) {
+      if (newProfessorCode.length < 12) {
+        setStatus("authStatus", "教授認証コードは12文字以上で設定してください。", "warn");
+        return;
+      }
+      state.authCodes.professorHash = hashCode(newProfessorCode);
+      changed = true;
+    }
+    if (newOwnerCode) {
+      if (newOwnerCode.length < 12) {
+        setStatus("authStatus", "管理者承認コードは12文字以上で設定してください。", "warn");
+        return;
+      }
+      state.authCodes.ownerHash = hashCode(newOwnerCode);
+      changed = true;
+    }
+    if (!changed) {
+      setStatus("authStatus", "変更するコードを入力してください。", "warn");
+      return;
+    }
+    state.authCodes.updatedAt = new Date().toISOString();
+    saveAuthCodes();
+    document.getElementById("newProfessorCodeInput").value = "";
+    document.getElementById("newOwnerCodeInput").value = "";
+    setStatus("authStatus", "認証コードを更新しました。", "ok");
+    updateSessionIndicators();
+  });
+
   document.getElementById("importBtn").addEventListener("click", () => {
-    const raw = document.getElementById("importInput").value.trim();
+    if (!state.authSession.professor) {
+      setStatus("professorStatus", "取り込みには教授ログインが必要です。", "danger");
+      return;
+    }
+    const raw = sanitizeText(document.getElementById("importInput").value, CONFIG.maxImportTokenLength, true);
     if (!raw) {
       setStatus("professorStatus", "共有リンクまたは共有コードを入力してください。", "warn");
       return;
     }
-    const imported = importFromRawString(raw);
+    const imported = importMessageFromRawString(raw);
     if (imported) {
       renderMessages();
       setStatus("professorStatus", "メッセージを取り込みました。", "ok");
@@ -591,11 +829,19 @@ function bindProfessorTools() {
   });
 
   document.getElementById("exportJsonBtn").addEventListener("click", () => {
+    if (!state.authSession.professor) {
+      setStatus("professorStatus", "JSON保存には教授ログインが必要です。", "danger");
+      return;
+    }
     downloadTextFile("yoshihara-messages.json", JSON.stringify(state.messages, null, 2), "application/json");
     setStatus("professorStatus", "JSONを保存しました。", "ok");
   });
 
   document.getElementById("exportCsvBtn").addEventListener("click", () => {
+    if (!state.authSession.professor) {
+      setStatus("professorStatus", "CSV保存には教授ログインが必要です。", "danger");
+      return;
+    }
     const rows = [["id", "name", "affiliation", "message", "source", "createdAt"]];
     state.messages.forEach((msg) => rows.push([msg.id, msg.name, msg.affiliation, msg.message, msg.source, msg.createdAt]));
     const csv = rows.map((row) => row.map(csvEscape).join(",")).join("\n");
@@ -604,6 +850,10 @@ function bindProfessorTools() {
   });
 
   document.getElementById("clearMessagesBtn").addEventListener("click", () => {
+    if (!state.authSession.professor) {
+      setStatus("professorStatus", "全削除には教授ログインが必要です。", "danger");
+      return;
+    }
     const ok = window.confirm("保存済みメッセージをすべて削除します。よろしいですか？");
     if (!ok) return;
     state.messages = [];
@@ -613,11 +863,217 @@ function bindProfessorTools() {
   });
 }
 
-function processImportFromUrl() {
+function bindRequestTools() {
+  document.getElementById("submitRequestBtn").addEventListener("click", () => {
+    if (!state.authSession.professor) {
+      setStatus("requestStatus", "修正依頼の登録には教授ログインが必要です。", "danger");
+      return;
+    }
+    const request = collectFixRequest();
+    if (!request) return;
+    addRequest(request);
+    renderRequests();
+    const requestLink = buildRequestShareLink(request);
+    document.getElementById("requestShareBox").textContent = requestLink;
+    setStatus("requestStatus", "修正依頼を登録しました。管理者承認待ちです。", "ok");
+    document.getElementById("requestTitleInput").value = "";
+    document.getElementById("requestBodyInput").value = "";
+    document.getElementById("requestProposedTextInput").value = "";
+  });
+
+  document.getElementById("requestList").addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const action = target.dataset.action;
+    const requestId = target.dataset.requestId;
+    if (!action || !requestId) return;
+    handleRequestAction(requestId, action);
+  });
+}
+
+function collectFixRequest() {
+  const title = sanitizeText(document.getElementById("requestTitleInput").value, CONFIG.maxRequestTitleLength);
+  const body = sanitizeText(document.getElementById("requestBodyInput").value, CONFIG.maxRequestBodyLength, true);
+  const proposedText = sanitizeText(document.getElementById("requestProposedTextInput").value, CONFIG.maxRequestBodyLength, true);
+  const priority = document.getElementById("requestPriorityInput").value;
+  const target = document.getElementById("requestTargetInput").value;
+
+  if (!title || !body || !proposedText) {
+    setStatus("requestStatus", "依頼タイトル・依頼内容・変更後テキストは必須です。", "warn");
+    return null;
+  }
+  if (!CONTENT_TARGETS[target]) {
+    setStatus("requestStatus", "自動修正対象が不正です。", "danger");
+    return null;
+  }
+  const now = new Date();
+  return {
+    id: "req-" + now.getTime().toString(36) + "-" + Math.random().toString(36).slice(2, 8),
+    title: title,
+    body: body,
+    proposedText: proposedText,
+    priority: priority,
+    target: target,
+    status: "pending",
+    requestedAt: now.toISOString(),
+    requestedLabel: formatDateTime(now),
+    requestedBy: "professor-authenticated",
+    autoProposal: autoGenerateFixProposal(title, body, proposedText, target)
+  };
+}
+
+function autoGenerateFixProposal(title, body, proposedText, target) {
+  return {
+    targetLabel: CONTENT_TARGETS[target] ? CONTENT_TARGETS[target].label : target,
+    summary: "依頼内容から自動修正案を生成しました。承認後に指定セクションへ反映します。",
+    patchPreview: proposedText,
+    rationale: title + " / " + body.slice(0, 120)
+  };
+}
+
+function addRequest(request) {
+  if (!request) return;
+  if (state.requests.some((item) => item.id === request.id)) return;
+  state.requests.push(request);
+  state.requests.sort((a, b) => String(b.requestedAt).localeCompare(String(a.requestedAt)));
+  if (state.requests.length > CONFIG.maxRequests) {
+    state.requests = state.requests.slice(0, CONFIG.maxRequests);
+  }
+  saveRequests();
+}
+
+function saveRequests() {
+  localStorage.setItem(CONFIG.requestStorageKey, JSON.stringify(state.requests));
+}
+
+function loadRequests() {
+  try {
+    const raw = localStorage.getItem(CONFIG.requestStorageKey);
+    state.requests = raw ? JSON.parse(raw) : [];
+  } catch (error) {
+    console.warn("request load failed", error);
+    state.requests = [];
+  }
+}
+
+function renderRequests() {
+  const node = document.getElementById("requestList");
+  if (!state.requests.length) {
+    node.innerHTML = "<div class=\"request-item\"><div class=\"request-meta\">修正依頼はまだありません。</div></div>";
+    return;
+  }
+  node.innerHTML = state.requests.map((request) => {
+    const actions = buildRequestActions(request);
+    const targetLabel = CONTENT_TARGETS[request.target] ? CONTENT_TARGETS[request.target].label : request.target;
+    return (
+      "<article class=\"request-item\">" +
+      "<h3>" + escapeHtml(request.title) + "</h3>" +
+      "<div class=\"request-meta\">" +
+      "<span class=\"status-chip " + escapeHtml(request.status) + "\">" + escapeHtml(formatRequestStatus(request.status)) + "</span> " +
+      "優先度: " + escapeHtml(formatPriority(request.priority)) +
+      " / 対象: " + escapeHtml(targetLabel) +
+      "</div>" +
+      "<div class=\"request-meta\" style=\"margin-top:6px\">" + escapeHtml(request.body) + "</div>" +
+      "<div class=\"request-meta\" style=\"margin-top:6px\">自動修正案: " + escapeHtml(request.proposedText || "") + "</div>" +
+      "<div class=\"request-meta\">依頼者: " + escapeHtml(request.requestedBy || "不明") + " / " + escapeHtml(request.requestedLabel || "") + "</div>" +
+      "<div class=\"btn-row\">" + actions + "</div>" +
+      "</article>"
+    );
+  }).join("");
+}
+
+function buildRequestActions(request) {
+  if (request.status === "pending") {
+    if (!state.authSession.owner) return "<div class=\"request-meta\">承認には管理者承認者ログインが必要です。</div>";
+    return (
+      "<button type=\"button\" class=\"primary\" data-action=\"approve\" data-request-id=\"" + escapeHtml(request.id) + "\">承認</button>" +
+      "<button type=\"button\" class=\"ghost\" data-action=\"reject\" data-request-id=\"" + escapeHtml(request.id) + "\">却下</button>"
+    );
+  }
+  if (request.status === "approved") {
+    if (!state.authSession.owner) return "<div class=\"request-meta\">自動反映には管理者承認者ログインが必要です。</div>";
+    return (
+      "<button type=\"button\" class=\"primary\" data-action=\"apply\" data-request-id=\"" + escapeHtml(request.id) + "\">承認済み案を自動反映</button>" +
+      "<button type=\"button\" class=\"ghost\" data-action=\"reject\" data-request-id=\"" + escapeHtml(request.id) + "\">却下へ変更</button>"
+    );
+  }
+  if (request.status === "applied") return "<div class=\"request-meta\">反映済みです。</div>";
+  if (request.status === "rejected") return "<div class=\"request-meta\">却下済みです。</div>";
+  return "";
+}
+
+function handleRequestAction(requestId, action) {
+  const request = state.requests.find((item) => item.id === requestId);
+  if (!request) return;
+  if (!state.authSession.owner) {
+    setStatus("requestStatus", "この操作には管理者承認者ログインが必要です。", "danger");
+    return;
+  }
+  if (action === "approve" && request.status === "pending") {
+    request.status = "approved";
+    request.approvedAt = new Date().toISOString();
+    setStatus("requestStatus", "依頼を承認しました。次に自動反映を実行してください。", "ok");
+  } else if (action === "apply" && (request.status === "approved" || request.status === "pending")) {
+    if (request.status === "pending") request.approvedAt = new Date().toISOString();
+    request.status = "approved";
+    const applied = applyApprovedProposalToDraft(request);
+    if (!applied) {
+      setStatus("requestStatus", "自動反映に失敗しました。対象設定を確認してください。", "danger");
+    } else {
+      request.status = "applied";
+      request.appliedAt = new Date().toISOString();
+      setStatus("requestStatus", "承認後、自動で修正を反映しました。", "ok");
+    }
+  } else if (action === "reject" && request.status !== "applied") {
+    request.status = "rejected";
+    request.rejectedAt = new Date().toISOString();
+    setStatus("requestStatus", "依頼を却下しました。", "warn");
+  }
+  saveRequests();
+  renderRequests();
+}
+
+function applyApprovedProposalToDraft(request) {
+  if (!request || !CONTENT_TARGETS[request.target]) return false;
+  const targetDef = CONTENT_TARGETS[request.target];
+  const text = sanitizeText(request.proposedText, CONFIG.maxRequestBodyLength, true);
+  if (!text) return false;
+  state.contentOverrides[request.target] = text;
+  saveContentOverrides();
+  const node = document.getElementById(targetDef.id);
+  if (node) node.textContent = text;
+  return true;
+}
+
+function saveContentOverrides() {
+  localStorage.setItem(CONFIG.contentStorageKey, JSON.stringify(state.contentOverrides));
+}
+
+function loadContentOverrides() {
+  try {
+    const raw = localStorage.getItem(CONFIG.contentStorageKey);
+    state.contentOverrides = raw ? JSON.parse(raw) : {};
+  } catch (error) {
+    console.warn("content override load failed", error);
+    state.contentOverrides = {};
+  }
+}
+
+function applyContentOverrides() {
+  Object.keys(CONTENT_TARGETS).forEach((key) => {
+    const value = state.contentOverrides[key];
+    if (!value) return;
+    const def = CONTENT_TARGETS[key];
+    const node = document.getElementById(def.id);
+    if (node) node.textContent = value;
+  });
+}
+
+function processMessageImportFromUrl() {
   const url = new URL(location.href);
   const raw = url.searchParams.get("import");
   if (!raw) return;
-  const imported = importPayload(raw, "shared-link");
+  const imported = importMessagePayload(raw, "shared-link");
   if (imported) {
     setMode("professor");
     setStatus("professorStatus", "共有リンクからメッセージを取り込みました。", "ok");
@@ -626,26 +1082,41 @@ function processImportFromUrl() {
   history.replaceState({}, "", url.toString());
 }
 
-function importFromRawString(raw) {
+function processRequestImportFromUrl() {
+  const url = new URL(location.href);
+  const raw = url.searchParams.get("req");
+  if (!raw) return;
+  const imported = importSignedRequestToken(raw);
+  if (imported) {
+    setMode("professor");
+    setStatus("requestStatus", "教授依頼リンクを取り込みました（承認待ち）。", "ok");
+    renderRequests();
+  } else {
+    setStatus("requestStatus", "依頼リンクの検証に失敗しました。教授認証コード設定を確認してください。", "danger");
+  }
+  url.searchParams.delete("req");
+  history.replaceState({}, "", url.toString());
+}
+
+function importMessageFromRawString(raw) {
   try {
     if (raw.startsWith("http://") || raw.startsWith("https://")) {
       const url = new URL(raw);
       const token = url.searchParams.get("import");
       if (!token) return false;
-      return importPayload(token, "shared-link");
+      return importMessagePayload(token, "shared-link");
     }
-    return importPayload(raw, "manual-code");
+    return importMessagePayload(raw, "manual-code");
   } catch (error) {
     console.warn(error);
     return false;
   }
 }
 
-function importPayload(token, source) {
+function importMessagePayload(token, source) {
   try {
     if (!token || token.length > CONFIG.maxImportTokenLength) return false;
-    const jsonText = decodeBase64Url(token);
-    const payload = JSON.parse(jsonText);
+    const payload = JSON.parse(decodeBase64Url(token));
     if (!payload || !payload.message) return false;
     const entry = {
       id: payload.id || ("msg-" + Date.now().toString(36) + "-import"),
@@ -665,7 +1136,7 @@ function importPayload(token, source) {
   }
 }
 
-function buildShareLinkFromEntry(entry) {
+function buildMessageShareLink(entry) {
   const payload = {
     id: entry.id,
     name: entry.name,
@@ -674,25 +1145,59 @@ function buildShareLinkFromEntry(entry) {
     createdAt: entry.createdAt,
     createdLabel: entry.createdLabel
   };
-  const url = new URL(location.href);
+  const url = buildBaseUrl();
   url.searchParams.set("mode", "professor");
   const token = encodeBase64Url(JSON.stringify(payload));
   url.searchParams.set("import", token);
   const nextUrl = url.toString();
-  if (nextUrl.length > 1800) {
-    // URL length overflow対策: 長文時は共有コードを使う
-    return "共有コード:\n" + token;
-  }
+  if (nextUrl.length > 1800) return "共有コード:\n" + token;
   return nextUrl;
 }
 
-function encodeBase64Url(text) {
-  return btoa(unescape(encodeURIComponent(text))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+function buildRequestShareLink(request) {
+  const payload = {
+    kind: "fix-request-v1",
+    request: {
+      id: request.id,
+      title: request.title,
+      body: request.body,
+      proposedText: request.proposedText,
+      priority: request.priority,
+      target: request.target,
+      requestedAt: request.requestedAt,
+      requestedLabel: request.requestedLabel
+    }
+  };
+  const token = encodeSignedToken(payload, state.authCodes.professorHash);
+  const url = buildBaseUrl();
+  url.searchParams.set("mode", "professor");
+  url.searchParams.set("req", token);
+  const nextUrl = url.toString();
+  if (nextUrl.length > 1800) return "依頼共有コード:\n" + token;
+  return nextUrl;
 }
 
-function decodeBase64Url(value) {
-  const padded = value.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((value.length + 3) % 4);
-  return decodeURIComponent(escape(atob(padded)));
+function importSignedRequestToken(rawToken) {
+  const token = rawToken.startsWith("依頼共有コード:") ? rawToken.replace("依頼共有コード:", "").trim() : rawToken.trim();
+  const payload = decodeSignedToken(token, state.authCodes.professorHash);
+  if (!payload || payload.kind !== "fix-request-v1" || !payload.request) return false;
+  const request = payload.request;
+  if (!request.title || !request.body || !request.proposedText || !CONTENT_TARGETS[request.target]) return false;
+  const normalized = {
+    id: request.id || ("req-" + Date.now().toString(36) + "-import"),
+    title: sanitizeText(request.title, CONFIG.maxRequestTitleLength),
+    body: sanitizeText(request.body, CONFIG.maxRequestBodyLength, true),
+    proposedText: sanitizeText(request.proposedText, CONFIG.maxRequestBodyLength, true),
+    priority: sanitizePriority(request.priority),
+    target: request.target,
+    status: "pending",
+    requestedAt: request.requestedAt || new Date().toISOString(),
+    requestedLabel: request.requestedLabel || formatDateTime(new Date()),
+    requestedBy: "professor-authenticated",
+    autoProposal: autoGenerateFixProposal(request.title, request.body, request.proposedText, request.target)
+  };
+  addRequest(normalized);
+  return true;
 }
 
 function bindWorkRefreshButton() {
@@ -837,6 +1342,126 @@ function extractCrossrefYear(item) {
   return "";
 }
 
+function loadAuthCodes() {
+  const defaults = {
+    professorHash: hashCode(CONFIG.defaultProfessorCode),
+    ownerHash: hashCode(CONFIG.defaultOwnerCode),
+    version: 1
+  };
+  try {
+    const raw = localStorage.getItem(CONFIG.authStorageKey);
+    if (!raw) {
+      localStorage.setItem(CONFIG.authStorageKey, JSON.stringify(defaults));
+      return defaults;
+    }
+    const parsed = JSON.parse(raw);
+    if (!parsed.professorHash || !parsed.ownerHash) {
+      localStorage.setItem(CONFIG.authStorageKey, JSON.stringify(defaults));
+      return defaults;
+    }
+    return {
+      professorHash: parsed.professorHash,
+      ownerHash: parsed.ownerHash,
+      version: parsed.version || 1
+    };
+  } catch (error) {
+    console.warn("auth load failed", error);
+    localStorage.setItem(CONFIG.authStorageKey, JSON.stringify(defaults));
+    return defaults;
+  }
+}
+
+function saveAuthCodes() {
+  localStorage.setItem(CONFIG.authStorageKey, JSON.stringify(state.authCodes));
+}
+
+function verifyCode(input, hash) {
+  if (!input) return false;
+  return hashCode(input) === hash;
+}
+
+function updateSessionIndicators() {
+  const chip = document.getElementById("sessionRoleChip");
+  if (state.authSession.owner) {
+    chip.textContent = "認証状態: 管理者承認者ログイン中";
+  } else if (state.authSession.professor) {
+    chip.textContent = "認証状態: 教授ログイン中";
+  } else {
+    chip.textContent = "認証状態: 未認証";
+  }
+  if (isUsingDefaultAuthCodes()) {
+    setStatus("authStatus", "初期認証コードが有効です。公開前に必ず変更してください。", "danger");
+  }
+}
+
+function isUsingDefaultAuthCodes() {
+  return (
+    state.authCodes.professorHash === hashCode(CONFIG.defaultProfessorCode) ||
+    state.authCodes.ownerHash === hashCode(CONFIG.defaultOwnerCode)
+  );
+}
+
+function formatRequestStatus(status) {
+  if (status === "pending") return "承認待ち";
+  if (status === "approved") return "承認済み";
+  if (status === "applied") return "適用済み";
+  if (status === "rejected") return "却下";
+  return status || "不明";
+}
+
+function formatPriority(priority) {
+  if (priority === "high") return "高";
+  if (priority === "medium") return "中";
+  if (priority === "low") return "低";
+  return "中";
+}
+
+function sanitizePriority(priority) {
+  if (priority === "high" || priority === "medium" || priority === "low") return priority;
+  return "medium";
+}
+
+function buildBaseUrl() {
+  const url = new URL(location.href);
+  url.searchParams.delete("import");
+  url.searchParams.delete("req");
+  return url;
+}
+
+function encodeSignedToken(payload, secretHash) {
+  const body = JSON.stringify(payload);
+  const sig = hashCode(body + "|" + secretHash);
+  return encodeBase64Url(JSON.stringify({ body: body, sig: sig }));
+}
+
+function decodeSignedToken(token, secretHash) {
+  try {
+    if (!token || token.length > CONFIG.maxImportTokenLength) return null;
+    const envelope = JSON.parse(decodeBase64Url(token));
+    if (!envelope || typeof envelope.body !== "string" || typeof envelope.sig !== "string") return null;
+    const expected = hashCode(envelope.body + "|" + secretHash);
+    if (expected !== envelope.sig) return null;
+    return JSON.parse(envelope.body);
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+}
+
+function hashCode(value) {
+  const str = String(value || "");
+  let h1 = 0xdeadbeef ^ str.length;
+  let h2 = 0x41c6ce57 ^ str.length;
+  for (let i = 0; i < str.length; i += 1) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return ((h2 >>> 0).toString(16) + (h1 >>> 0).toString(16));
+}
+
 function downloadTextFile(filename, text, mime) {
   const blob = new Blob([text], { type: mime + ";charset=utf-8" });
   const href = URL.createObjectURL(blob);
@@ -861,8 +1486,19 @@ function sanitizeText(value, maxLength, allowMultiline) {
   return normalized.trim().slice(0, maxLength);
 }
 
+function encodeBase64Url(text) {
+  return btoa(unescape(encodeURIComponent(text))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function decodeBase64Url(value) {
+  const token = String(value || "").trim();
+  const padded = token.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((token.length + 3) % 4);
+  return decodeURIComponent(escape(atob(padded)));
+}
+
 function setStatus(id, message, kind) {
   const node = document.getElementById(id);
+  if (!node) return;
   node.textContent = message;
   node.className = "status" + (kind ? " " + kind : "");
 }
