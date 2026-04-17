@@ -3,14 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="群馬大学 吉原利忠教授の研究紹介ポータル。最新文献の自動更新とメッセージ共有機能を備えた公開ページ。" />
+<meta name="description" content="群馬大学 吉原利忠教授の研究紹介ページ。研究テーマ・経歴・最新文献を見やすく掲載。" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
-<title>群馬大学 吉原利忠教授 | 研究紹介・メッセージポータル</title>
+<title>群馬大学 吉原利忠教授 | 研究紹介ページ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
-<script src="./config.js"></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 :root {
   --bg: #f3f7fd;
@@ -36,7 +34,7 @@ body {
   line-height: 1.65;
 }
 a { color: var(--brand); }
-.shell { max-width: 1240px; margin: 0 auto; padding: 18px 16px 56px; }
+.shell { max-width: 1080px; margin: 0 auto; padding: 18px 16px 56px; }
 .topbar {
   display: flex;
   align-items: center;
@@ -54,26 +52,6 @@ a { color: var(--brand); }
   background: #fff;
   color: var(--muted);
   font-size: 12px;
-}
-.mode-switch {
-  display: inline-flex;
-  padding: 4px;
-  border-radius: 999px;
-  background: var(--bg-soft);
-}
-.mode-switch button {
-  border: 0;
-  background: transparent;
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-weight: 700;
-  cursor: pointer;
-  color: #2d4e6f;
-}
-.mode-switch button[aria-pressed="true"] {
-  background: #fff;
-  color: var(--brand-strong);
-  box-shadow: 0 2px 8px rgba(22, 79, 134, 0.18);
 }
 .hero {
   margin-top: 14px;
@@ -106,13 +84,7 @@ a { color: var(--brand); }
 }
 .metric .k { font-size: 11px; color: #d2e9fa; }
 .metric .v { font-size: 20px; font-weight: 800; margin-top: 2px; }
-.layout {
-  margin-top: 14px;
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 14px;
-}
-.stack { display: grid; gap: 12px; }
+.stack { display: grid; gap: 12px; margin-top: 14px; }
 .card {
   background: var(--card);
   border: 1px solid var(--line);
@@ -161,57 +133,6 @@ a { color: var(--brand); }
 .status.ok { color: var(--accent); font-weight: 700; }
 .status.warn { color: var(--warn); font-weight: 700; }
 .status.danger { color: var(--danger); font-weight: 700; }
-.field { display: grid; gap: 6px; margin-top: 10px; }
-label { font-size: 13px; color: var(--muted); font-weight: 700; }
-input, textarea, select {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px;
-  font: inherit;
-  color: inherit;
-  background: #fff;
-}
-textarea { min-height: 86px; resize: vertical; }
-.lock-note {
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--warn);
-}
-.request-list {
-  display: grid;
-  gap: 8px;
-  margin-top: 8px;
-}
-.request-item {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #f9fcff;
-  padding: 10px;
-}
-.request-item h3 {
-  margin: 0;
-  font-size: 14px;
-}
-.request-meta {
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--muted);
-}
-.status-chip {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  font-size: 11px;
-  padding: 2px 8px;
-  border: 1px solid #c2d8ec;
-  background: #eef6ff;
-  color: #2d5578;
-}
-.status-chip.pending { border-color: #ffd6a8; background: #fff4e8; color: #9a4a05; }
-.status-chip.approved { border-color: #bfe8d8; background: #ecfff7; color: #0b6e56; }
-.status-chip.applied { border-color: #bdd2f3; background: #edf4ff; color: #244f8a; }
-.status-chip.rejected { border-color: #f5c2c5; background: #fff0f1; color: #9d2530; }
 .btn-row {
   margin-top: 10px;
   display: flex;
@@ -226,37 +147,10 @@ button {
   font-weight: 700;
   cursor: pointer;
 }
-.primary {
-  color: #fff;
-  background: linear-gradient(180deg, var(--brand), var(--brand-strong));
-}
 .ghost {
   color: var(--text);
   background: #fff;
   border-color: var(--line);
-}
-.danger {
-  color: #fff;
-  background: linear-gradient(180deg, #cb3d43, #9d1f28);
-}
-.messages { display: grid; gap: 8px; margin-top: 8px; }
-.message {
-  border: 1px dashed var(--line);
-  background: #fbfdff;
-  border-radius: 10px;
-  padding: 9px;
-}
-.message .name { font-weight: 700; font-size: 13px; }
-.message .meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
-.code-box {
-  margin-top: 10px;
-  border: 1px solid var(--line);
-  background: #f7fbff;
-  border-radius: 10px;
-  padding: 9px;
-  word-break: break-all;
-  font-size: 12px;
-  color: #2b4968;
 }
 .sources {
   margin: 8px 0 0;
@@ -269,28 +163,17 @@ button {
   color: var(--muted);
   font-size: 12px;
 }
-.professor-only { display: none; }
-body[data-mode="professor"] .professor-only { display: block; }
-body[data-mode="professor"] .public-only { display: none; }
-
-@media (max-width: 1024px) {
-  .layout { grid-template-columns: 1fr; }
-}
 @media (max-width: 760px) {
   .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid2 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
-<body data-mode="public">
+<body>
 <div class="shell">
   <header class="topbar">
-    <div class="capsule">群馬大学大学院理工学府 / 吉原利忠教授 研究紹介ポータル</div>
-    <div class="mode-switch" role="group" aria-label="ページモード切替">
-      <button id="publicModeBtn" type="button" aria-pressed="true">第三者向け</button>
-      <button id="professorModeBtn" type="button" aria-pressed="false">教授向け管理</button>
-    </div>
-    <div class="capsule" id="sessionRoleChip">認証状態: 未認証</div>
+    <div class="capsule">群馬大学大学院理工学府 / 吉原利忠教授 研究紹介ページ</div>
+    <div class="capsule">第三者・教授とも同一表示</div>
   </header>
 
   <section class="hero" aria-label="教授紹介">
@@ -308,196 +191,71 @@ body[data-mode="professor"] .public-only { display: none; }
     </div>
   </section>
 
-  <div class="layout">
-    <main class="stack">
-      <section class="card">
-        <h2>教授プロフィール</h2>
-        <p class="sub">群馬大学公式情報をもとに、初見の方にも研究内容が伝わる構成に整理しています。</p>
-        <div class="grid2">
-          <article class="panel">
-            <h3>専門領域</h3>
-            <p id="profileSpecialtyText">光化学、バイオイメージング、りん光性材料、酸素センシング、機能性発光分子。</p>
-          </article>
-          <article class="panel">
-            <h3>研究の価値</h3>
-            <p id="profileValueText">がん・虚血など酸素分圧が関わる病態の理解や診断支援につながる可視化技術を推進。</p>
-          </article>
+  <main class="stack">
+    <section class="card">
+      <h2>教授プロフィール</h2>
+      <p class="sub">群馬大学公式情報をもとに、初見の方にも研究内容が伝わる構成に整理しています。</p>
+      <div class="grid2">
+        <article class="panel">
+          <h3>専門領域</h3>
+          <p>光化学、バイオイメージング、りん光性材料、酸素センシング、機能性発光分子。</p>
+        </article>
+        <article class="panel">
+          <h3>研究の価値</h3>
+          <p>がん・虚血など酸素分圧が関わる病態の理解や診断支援につながる可視化技術を推進。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>経歴ハイライト</h2>
+      <ul class="timeline" id="careerTimeline"></ul>
+    </section>
+
+    <section class="card">
+      <h2>研究テーマ</h2>
+      <div class="grid2" id="themeGrid"></div>
+    </section>
+
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+        <div>
+          <h2>最新の関連文献（自動取得）</h2>
+          <p class="sub">OpenAlex + Crossref から取得し、重複を除いて新着順に表示します。</p>
         </div>
-      </section>
-
-      <section class="card">
-        <h2>経歴ハイライト</h2>
-        <ul class="timeline" id="careerTimeline"></ul>
-      </section>
-
-      <section class="card">
-        <h2>研究テーマ</h2>
-        <div class="grid2" id="themeGrid"></div>
-      </section>
-
-      <section class="card">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
-          <div>
-            <h2>最新の関連文献（自動取得）</h2>
-            <p class="sub">OpenAlex + Crossref から取得し、重複を除いて新着順に表示します。</p>
-          </div>
+        <div class="btn-row">
           <button id="refreshWorksBtn" type="button" class="ghost">文献を再取得</button>
         </div>
-        <div class="status" id="worksStatus">文献を読み込み中...</div>
-        <div class="works" id="worksList"></div>
-      </section>
+      </div>
+      <div class="status" id="worksStatus">文献を読み込み中...</div>
+      <div class="works" id="worksList"></div>
+    </section>
 
-      <section class="card">
-        <h2>一次情報・参照文献</h2>
-        <p class="sub">プロフィール要約と最新情報更新の参照元です。</p>
-        <ul class="sources">
-          <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/" target="_blank" rel="noopener noreferrer">分子光化学研究室（吉原研究室）公式サイト</a></li>
-          <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/people/" target="_blank" rel="noopener noreferrer">メンバー・経歴（公式）</a></li>
-          <li><a href="https://researchers.st.gunma-u.ac.jp/953/" target="_blank" rel="noopener noreferrer">群馬大学 教員・研究紹介（吉原利忠）</a></li>
-          <li><a href="https://researchmap.jp/read0139783" target="_blank" rel="noopener noreferrer">researchmap（吉原利忠）</a></li>
-          <li><a href="https://api.openalex.org/authors/A5069986511" target="_blank" rel="noopener noreferrer">OpenAlex Author API</a></li>
-          <li><a href="https://scholar.google.com/scholar?q=Toshitada+Yoshihara" target="_blank" rel="noopener noreferrer">Google Scholar 検索</a></li>
-        </ul>
-      </section>
-    </main>
+    <section class="card">
+      <h2>一次情報・参照文献</h2>
+      <p class="sub">プロフィール要約と最新情報更新の参照元です。</p>
+      <ul class="sources">
+        <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/" target="_blank" rel="noopener noreferrer">分子光化学研究室（吉原研究室）公式サイト</a></li>
+        <li><a href="https://yoshihara.chem-bio.st.gunma-u.ac.jp/people/" target="_blank" rel="noopener noreferrer">メンバー・経歴（公式）</a></li>
+        <li><a href="https://researchers.st.gunma-u.ac.jp/953/" target="_blank" rel="noopener noreferrer">群馬大学 教員・研究紹介（吉原利忠）</a></li>
+        <li><a href="https://researchmap.jp/read0139783" target="_blank" rel="noopener noreferrer">researchmap（吉原利忠）</a></li>
+        <li><a href="https://api.openalex.org/authors/A5069986511" target="_blank" rel="noopener noreferrer">OpenAlex Author API</a></li>
+        <li><a href="https://scholar.google.com/scholar?q=Toshitada+Yoshihara" target="_blank" rel="noopener noreferrer">Google Scholar 検索</a></li>
+      </ul>
+    </section>
+  </main>
 
-    <aside class="stack">
-      <section class="card public-only">
-        <h2>吉原教授へメッセージ</h2>
-        <p class="sub">第三者はログイン不要。ここから直接投稿できます。</p>
-        <form id="messageForm">
-          <div class="field">
-            <label for="senderNameInput">お名前（任意）</label>
-            <input id="senderNameInput" maxlength="80" placeholder="例: 山田 太郎" />
-          </div>
-          <div class="field">
-            <label for="senderAffiliationInput">所属（任意）</label>
-            <input id="senderAffiliationInput" maxlength="120" placeholder="例: 群馬大学 理工学府" />
-          </div>
-          <div class="field">
-            <label for="messageInput">メッセージ（必須）</label>
-            <textarea id="messageInput" maxlength="2000" required placeholder="教授へのメッセージを入力してください（最大2000文字）。"></textarea>
-            <div class="sub">公開共有されるため、電話番号・住所など個人情報の記載は避けてください。</div>
-          </div>
-          <div class="btn-row">
-            <button type="submit" class="primary">この端末で送信</button>
-            <button type="button" id="copyShareLinkBtn" class="ghost">共有リンク/コードをコピー</button>
-          </div>
-          <div id="messageFormStatus" class="status"></div>
-          <div class="code-box" id="shareLinkBox">共有リンクはここに表示されます。</div>
-        </form>
-      </section>
-
-      <section class="card">
-        <h2>受信メッセージ</h2>
-        <p class="sub">送信されたメッセージを時系列で表示します（最新10件）。</p>
-        <div id="messageStatus" class="status">メッセージを読み込み中...</div>
-        <div class="messages" id="messageList"></div>
-      </section>
-
-      <section class="card professor-only">
-        <h2>教授向け認証・管理</h2>
-        <p class="sub">第三者はログイン不要。教授操作と承認操作はGoogleログイン後のみ有効です。</p>
-        <div class="btn-row">
-          <button type="button" id="professorLoginBtn" class="primary">吉原教授アカウントでログイン</button>
-          <button type="button" id="ownerVerifyBtn" class="ghost">管理者（あなた）ログイン</button>
-          <button type="button" id="professorLogoutBtn" class="ghost">ログアウト</button>
-        </div>
-        <div class="lock-note">教授ログインは群馬大学ドメインの吉原教授アカウントのみ許可されます。</div>
-        <div class="lock-note">管理者はあなたのGoogleアカウント（初回ログイン端末で登録）として扱います。</div>
-        <div id="authStatus" class="status"></div>
-      </section>
-
-      <section class="card professor-only">
-        <h2>教授向けデータ管理</h2>
-        <p class="sub">共有リンク/コード取り込み、バックアップ保存、削除が可能です。</p>
-        <div class="field">
-          <label for="importInput">共有リンクまたは共有コードを貼り付け</label>
-          <textarea id="importInput" maxlength="12000" placeholder="例: https://.../?mode=professor&import=...."></textarea>
-        </div>
-        <div class="btn-row">
-          <button type="button" id="importBtn" class="primary">取り込む</button>
-          <button type="button" id="exportJsonBtn" class="ghost">JSON保存</button>
-          <button type="button" id="exportCsvBtn" class="ghost">CSV保存</button>
-          <button type="button" id="clearMessagesBtn" class="danger">全削除</button>
-        </div>
-        <div id="professorStatus" class="status"></div>
-      </section>
-
-      <section class="card professor-only">
-        <h2>教授からのアプリ修正依頼</h2>
-        <p class="sub">依頼を登録すると自動で修正タスク案を生成し、管理者承認後のみ適用状態へ進めます。</p>
-        <div class="field">
-          <label for="requestTitleInput">依頼タイトル</label>
-          <input id="requestTitleInput" maxlength="120" placeholder="例: 研究テーマの説明文を追記したい" />
-        </div>
-        <div class="field">
-          <label for="requestBodyInput">依頼内容</label>
-          <textarea id="requestBodyInput" maxlength="4000" placeholder="背景、変更したい箇所、期待する表示を具体的に記載"></textarea>
-        </div>
-        <div class="field">
-          <label for="requestPriorityInput">優先度</label>
-          <select id="requestPriorityInput">
-            <option value="high">高</option>
-            <option value="medium" selected>中</option>
-            <option value="low">低</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="requestTargetInput">自動修正対象</label>
-          <select id="requestTargetInput">
-            <option value="heroDescription" selected>ヒーロー説明文</option>
-            <option value="profileSpecialty">専門領域テキスト</option>
-            <option value="profileValue">研究の価値テキスト</option>
-            <option value="footerNote">フッターノート</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="requestProposedTextInput">変更後テキスト（自動修正用）</label>
-          <textarea id="requestProposedTextInput" maxlength="4000" placeholder="承認後に反映したい文面を入力してください"></textarea>
-        </div>
-        <div class="btn-row">
-          <button type="button" id="submitRequestBtn" class="primary">修正依頼を登録</button>
-        </div>
-        <div id="requestStatus" class="status"></div>
-        <div class="code-box" id="requestShareBox">依頼共有リンクはここに表示されます。</div>
-      </section>
-
-      <section class="card professor-only">
-        <h2>修正依頼キュー（承認フロー）</h2>
-        <p class="sub">状態: 受付 → 承認待ち → 承認済み → 適用済み。承認操作は管理者ログイン後のみ有効です。</p>
-        <div class="request-list" id="requestList"></div>
-      </section>
-    </aside>
-  </div>
-
-  <p class="footer" id="footerNote">
-    Googleフォーム/スプレッドシートに依存しない設計です。文献情報はAPIから自動更新、
-    メッセージはページ内で即時運用できます。
+  <p class="footer">
+    このページは研究紹介に特化した公開表示です。メッセージ投稿・ログイン機能は含みません。
   </p>
 </div>
 
 <script>
 const CONFIG = {
-  modeStorageKey: "yoshihara-profile-mode-v4",
-  messageStorageKey: "yoshihara-messages-v1",
-  requestStorageKey: "yoshihara-fix-requests-v1",
-  contentStorageKey: "yoshihara-content-overrides-v1",
-  ownerEmailStorageKey: "yoshihara-owner-email-v1",
-  professorDomain: "gunma-u.ac.jp",
-  professorLocalPattern: /yoshihara/i,
   openAlexAuthorId: "A5069986511",
   crossrefQuery: "Toshitada Yoshihara Gunma University oxygen imaging iridium",
   worksRefreshMs: 15 * 60 * 1000,
   maxWorks: 12,
-  maxMessages: 200,
-  maxRequests: 120,
-  maxNameLength: 80,
-  maxAffiliationLength: 120,
-  maxMessageLength: 2000,
-  maxRequestTitleLength: 120,
-  maxRequestBodyLength: 4000,
-  maxImportTokenLength: 12000,
   openAlexMailto: "research-portal@example.com"
 };
 
@@ -516,54 +274,16 @@ const THEMES = [
   { title: "診断・医工学応用", body: "酸素分圧の可視化を通じて、病態の理解や診断支援への応用可能性を追求。" }
 ];
 
-const CONTENT_TARGETS = {
-  heroDescription: { id: "heroDescription", label: "ヒーロー説明文" },
-  profileSpecialty: { id: "profileSpecialtyText", label: "専門領域テキスト" },
-  profileValue: { id: "profileValueText", label: "研究の価値テキスト" },
-  footerNote: { id: "footerNote", label: "フッターノート" }
-};
-
 const state = {
-  mode: "public",
   works: [],
-  messages: [],
-  requests: [],
-  contentOverrides: {},
-  ownerEmail: "",
-  worksTimer: null,
-  pendingDraftForShare: null,
-  authSession: {
-    professor: false,
-    owner: false,
-    professorEmail: "",
-    ownerEmail: "",
-    name: ""
-  },
-  authIntent: "",
-  googleReady: false,
-  googleClientId: ""
+  worksTimer: null
 };
 
 init();
 
 function init() {
   renderStatic();
-  bindModeButtons();
-  bindMessageForm();
-  bindProfessorTools();
-  bindRequestTools();
-  bindWorkRefreshButton();
-  loadMode();
-  loadMessages();
-  loadRequests();
-  loadContentOverrides();
-  state.ownerEmail = loadOwnerEmail();
-  applyContentOverrides();
-  processMessageImportFromUrl();
-  renderMessages();
-  renderRequests();
-  initGoogleAuth();
-  updateSessionIndicators();
+  bindEvents();
   refreshPublications();
   scheduleWorksRefresh();
 }
@@ -577,497 +297,8 @@ function renderStatic() {
     .join("");
 }
 
-function bindModeButtons() {
-  document.getElementById("publicModeBtn").addEventListener("click", () => setMode("public"));
-  document.getElementById("professorModeBtn").addEventListener("click", () => setMode("professor"));
-}
-
-function loadMode() {
-  const params = new URLSearchParams(location.search);
-  const queryMode = params.get("mode");
-  const storedMode = localStorage.getItem(CONFIG.modeStorageKey);
-  if (queryMode === "public" || queryMode === "professor") {
-    setMode(queryMode);
-    return;
-  }
-  setMode(storedMode === "professor" ? "professor" : "public");
-}
-
-function setMode(mode) {
-  const next = mode === "professor" ? "professor" : "public";
-  state.mode = next;
-  document.body.dataset.mode = next;
-  localStorage.setItem(CONFIG.modeStorageKey, next);
-  document.getElementById("publicModeBtn").setAttribute("aria-pressed", String(next === "public"));
-  document.getElementById("professorModeBtn").setAttribute("aria-pressed", String(next === "professor"));
-  const url = buildBaseUrl();
-  url.searchParams.set("mode", next);
-  history.replaceState({}, "", url.toString());
-}
-
-function bindMessageForm() {
-  const form = document.getElementById("messageForm");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const draft = collectMessageDraft();
-    if (!draft.message) {
-      setStatus("messageFormStatus", "メッセージ本文は必須です。", "warn");
-      return;
-    }
-    const entry = createMessageEntry(draft, "visitor-unverified");
-    addMessage(entry);
-    renderMessages();
-    setStatus("messageFormStatus", "送信しました。受信メッセージに反映済みです。", "ok");
-    const link = buildMessageShareLink(entry);
-    state.pendingDraftForShare = entry;
-    document.getElementById("shareLinkBox").textContent = link;
-    form.reset();
-  });
-
-  document.getElementById("copyShareLinkBtn").addEventListener("click", async () => {
-    const draft = collectMessageDraft();
-    const baseEntry = draft.message ? createMessageEntry(draft, "visitor-unverified") : state.pendingDraftForShare;
-    if (!baseEntry || !baseEntry.message) {
-      setStatus("messageFormStatus", "先にメッセージを入力して共有リンクを作成してください。", "warn");
-      return;
-    }
-    const link = buildMessageShareLink(baseEntry);
-    document.getElementById("shareLinkBox").textContent = link;
-    try {
-      await navigator.clipboard.writeText(link);
-      setStatus("messageFormStatus", "共有リンクをコピーしました。", "ok");
-    } catch (error) {
-      setStatus("messageFormStatus", "コピーに失敗しました。リンクを手動で共有してください。", "warn");
-    }
-  });
-}
-
-function collectMessageDraft() {
-  return {
-    name: sanitizeText(document.getElementById("senderNameInput").value, CONFIG.maxNameLength) || "匿名",
-    affiliation: sanitizeText(document.getElementById("senderAffiliationInput").value, CONFIG.maxAffiliationLength),
-    message: sanitizeText(document.getElementById("messageInput").value, CONFIG.maxMessageLength, true)
-  };
-}
-
-function createMessageEntry(draft, source) {
-  const now = new Date();
-  return {
-    id: "msg-" + now.getTime().toString(36) + "-" + Math.random().toString(36).slice(2, 8),
-    name: draft.name || "匿名",
-    affiliation: draft.affiliation || "",
-    message: draft.message || "",
-    source: source || "visitor-unverified",
-    createdAt: now.toISOString(),
-    createdLabel: formatDateTime(now)
-  };
-}
-
-function addMessage(entry) {
-  if (!entry || !entry.message) return;
-  if (state.messages.some((msg) => msg.id === entry.id)) return;
-  state.messages.push(entry);
-  state.messages.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
-  if (state.messages.length > CONFIG.maxMessages) {
-    state.messages = state.messages.slice(state.messages.length - CONFIG.maxMessages);
-  }
-  saveMessages();
-}
-
-function saveMessages() {
-  localStorage.setItem(CONFIG.messageStorageKey, JSON.stringify(state.messages));
-}
-
-function loadMessages() {
-  try {
-    const raw = localStorage.getItem(CONFIG.messageStorageKey);
-    state.messages = raw ? JSON.parse(raw) : [];
-  } catch (error) {
-    console.warn("message load failed", error);
-    state.messages = [];
-  }
-}
-
-function renderMessages() {
-  const list = document.getElementById("messageList");
-  if (!state.messages.length) {
-    list.innerHTML = "<div class=\"message\"><div class=\"meta\">まだメッセージはありません。</div></div>";
-    setStatus("messageStatus", "メッセージを待機中です。", "warn");
-    return;
-  }
-  const latest = state.messages.slice(-10).reverse();
-  list.innerHTML = latest.map((msg) => {
-    const affiliation = msg.affiliation ? "（" + escapeHtml(msg.affiliation) + "）" : "";
-    return (
-      "<article class=\"message\">" +
-      "<div class=\"name\">" + escapeHtml(msg.name) + affiliation + "</div>" +
-      "<div style=\"margin-top:4px\">" + escapeHtml(msg.message) + "</div>" +
-      "<div class=\"meta\">" +
-      escapeHtml(msg.createdLabel || formatDateTime(new Date(msg.createdAt))) +
-      " / " + escapeHtml(formatSourceLabel(msg.source)) +
-      "</div>" +
-      "</article>"
-    );
-  }).join("");
-  setStatus("messageStatus", "全 " + state.messages.length + " 件のうち最新 " + latest.length + " 件を表示しています。", "ok");
-}
-
-function formatSourceLabel(source) {
-  if (source === "visitor-unverified") return "第三者投稿（ログイン不要）";
-  if (source === "shared-link") return "共有リンク経由";
-  if (source === "manual-code") return "共有コード経由";
-  return source || "不明";
-}
-
-function bindProfessorTools() {
-  document.getElementById("professorLoginBtn").addEventListener("click", () => {
-    startGoogleLogin("professor");
-  });
-
-  document.getElementById("ownerVerifyBtn").addEventListener("click", () => {
-    startGoogleLogin("owner");
-  });
-
-  document.getElementById("professorLogoutBtn").addEventListener("click", () => {
-    state.authSession.professor = false;
-    state.authSession.owner = false;
-    state.authSession.professorEmail = "";
-    state.authSession.ownerEmail = "";
-    state.authSession.name = "";
-    setStatus("authStatus", "ログアウトしました。", "warn");
-    updateSessionIndicators();
-    renderRequests();
-  });
-
-  document.getElementById("importBtn").addEventListener("click", () => {
-    if (!state.authSession.professor) {
-      setStatus("professorStatus", "取り込みには教授ログインが必要です。", "danger");
-      return;
-    }
-    const raw = sanitizeText(document.getElementById("importInput").value, CONFIG.maxImportTokenLength, true);
-    if (!raw) {
-      setStatus("professorStatus", "共有リンクまたは共有コードを入力してください。", "warn");
-      return;
-    }
-    const imported = importMessageFromRawString(raw);
-    if (imported) {
-      renderMessages();
-      setStatus("professorStatus", "メッセージを取り込みました。", "ok");
-      document.getElementById("importInput").value = "";
-    } else {
-      setStatus("professorStatus", "取り込みに失敗しました。リンク形式を確認してください。", "danger");
-    }
-  });
-
-  document.getElementById("exportJsonBtn").addEventListener("click", () => {
-    if (!state.authSession.professor) {
-      setStatus("professorStatus", "JSON保存には教授ログインが必要です。", "danger");
-      return;
-    }
-    downloadTextFile("yoshihara-messages.json", JSON.stringify(state.messages, null, 2), "application/json");
-    setStatus("professorStatus", "JSONを保存しました。", "ok");
-  });
-
-  document.getElementById("exportCsvBtn").addEventListener("click", () => {
-    if (!state.authSession.professor) {
-      setStatus("professorStatus", "CSV保存には教授ログインが必要です。", "danger");
-      return;
-    }
-    const rows = [["id", "name", "affiliation", "message", "source", "createdAt"]];
-    state.messages.forEach((msg) => rows.push([msg.id, msg.name, msg.affiliation, msg.message, msg.source, msg.createdAt]));
-    const csv = rows.map((row) => row.map(csvEscape).join(",")).join("\n");
-    downloadTextFile("yoshihara-messages.csv", csv, "text/csv");
-    setStatus("professorStatus", "CSVを保存しました。", "ok");
-  });
-
-  document.getElementById("clearMessagesBtn").addEventListener("click", () => {
-    if (!state.authSession.professor) {
-      setStatus("professorStatus", "全削除には教授ログインが必要です。", "danger");
-      return;
-    }
-    const ok = window.confirm("保存済みメッセージをすべて削除します。よろしいですか？");
-    if (!ok) return;
-    state.messages = [];
-    saveMessages();
-    renderMessages();
-    setStatus("professorStatus", "メッセージを全削除しました。", "ok");
-  });
-}
-
-function bindRequestTools() {
-  document.getElementById("submitRequestBtn").addEventListener("click", () => {
-    if (!state.authSession.professor) {
-      setStatus("requestStatus", "修正依頼の登録には教授ログインが必要です。", "danger");
-      return;
-    }
-    const request = collectFixRequest();
-    if (!request) return;
-    addRequest(request);
-    renderRequests();
-    document.getElementById("requestShareBox").textContent = "依頼を登録しました（このブラウザ内キュー）。管理者承認後のみ自動反映されます。";
-    setStatus("requestStatus", "修正依頼を登録しました。管理者承認待ちです。", "ok");
-    document.getElementById("requestTitleInput").value = "";
-    document.getElementById("requestBodyInput").value = "";
-    document.getElementById("requestProposedTextInput").value = "";
-  });
-
-  document.getElementById("requestList").addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
-    const action = target.dataset.action;
-    const requestId = target.dataset.requestId;
-    if (!action || !requestId) return;
-    handleRequestAction(requestId, action);
-  });
-}
-
-function collectFixRequest() {
-  const title = sanitizeText(document.getElementById("requestTitleInput").value, CONFIG.maxRequestTitleLength);
-  const body = sanitizeText(document.getElementById("requestBodyInput").value, CONFIG.maxRequestBodyLength, true);
-  const proposedText = sanitizeText(document.getElementById("requestProposedTextInput").value, CONFIG.maxRequestBodyLength, true);
-  const priority = sanitizePriority(document.getElementById("requestPriorityInput").value);
-  const target = document.getElementById("requestTargetInput").value;
-
-  if (!title || !body || !proposedText) {
-    setStatus("requestStatus", "依頼タイトル・依頼内容・変更後テキストは必須です。", "warn");
-    return null;
-  }
-  if (!CONTENT_TARGETS[target]) {
-    setStatus("requestStatus", "自動修正対象が不正です。", "danger");
-    return null;
-  }
-  const now = new Date();
-  return {
-    id: "req-" + now.getTime().toString(36) + "-" + Math.random().toString(36).slice(2, 8),
-    title: title,
-    body: body,
-    proposedText: proposedText,
-    priority: priority,
-    target: target,
-    status: "pending",
-    requestedAt: now.toISOString(),
-    requestedLabel: formatDateTime(now),
-    requestedBy: state.authSession.professorEmail || "professor-authenticated",
-    autoProposal: autoGenerateFixProposal(title, body, proposedText, target)
-  };
-}
-
-function autoGenerateFixProposal(title, body, proposedText, target) {
-  return {
-    targetLabel: CONTENT_TARGETS[target] ? CONTENT_TARGETS[target].label : target,
-    summary: "依頼内容から自動修正案を生成しました。承認後に指定セクションへ反映します。",
-    patchPreview: proposedText,
-    rationale: title + " / " + body.slice(0, 120)
-  };
-}
-
-function addRequest(request) {
-  if (!request) return;
-  if (state.requests.some((item) => item.id === request.id)) return;
-  state.requests.push(request);
-  state.requests.sort((a, b) => String(b.requestedAt).localeCompare(String(a.requestedAt)));
-  if (state.requests.length > CONFIG.maxRequests) {
-    state.requests = state.requests.slice(0, CONFIG.maxRequests);
-  }
-  saveRequests();
-}
-
-function saveRequests() {
-  localStorage.setItem(CONFIG.requestStorageKey, JSON.stringify(state.requests));
-}
-
-function loadRequests() {
-  try {
-    const raw = localStorage.getItem(CONFIG.requestStorageKey);
-    state.requests = raw ? JSON.parse(raw) : [];
-  } catch (error) {
-    console.warn("request load failed", error);
-    state.requests = [];
-  }
-}
-
-function renderRequests() {
-  const node = document.getElementById("requestList");
-  if (!state.requests.length) {
-    node.innerHTML = "<div class=\"request-item\"><div class=\"request-meta\">修正依頼はまだありません。</div></div>";
-    return;
-  }
-  node.innerHTML = state.requests.map((request) => {
-    const actions = buildRequestActions(request);
-    const targetLabel = CONTENT_TARGETS[request.target] ? CONTENT_TARGETS[request.target].label : request.target;
-    return (
-      "<article class=\"request-item\">" +
-      "<h3>" + escapeHtml(request.title) + "</h3>" +
-      "<div class=\"request-meta\">" +
-      "<span class=\"status-chip " + escapeHtml(request.status) + "\">" + escapeHtml(formatRequestStatus(request.status)) + "</span> " +
-      "優先度: " + escapeHtml(formatPriority(request.priority)) +
-      " / 対象: " + escapeHtml(targetLabel) +
-      "</div>" +
-      "<div class=\"request-meta\" style=\"margin-top:6px\">" + escapeHtml(request.body) + "</div>" +
-      "<div class=\"request-meta\" style=\"margin-top:6px\">自動修正案: " + escapeHtml(request.proposedText || "") + "</div>" +
-      "<div class=\"request-meta\">依頼者: " + escapeHtml(request.requestedBy || "不明") + " / " + escapeHtml(request.requestedLabel || "") + "</div>" +
-      "<div class=\"btn-row\">" + actions + "</div>" +
-      "</article>"
-    );
-  }).join("");
-}
-
-function buildRequestActions(request) {
-  if (request.status === "pending") {
-    if (!state.authSession.owner) return "<div class=\"request-meta\">承認には管理者ログインが必要です。</div>";
-    return (
-      "<button type=\"button\" class=\"primary\" data-action=\"approve\" data-request-id=\"" + escapeHtml(request.id) + "\">承認</button>" +
-      "<button type=\"button\" class=\"ghost\" data-action=\"reject\" data-request-id=\"" + escapeHtml(request.id) + "\">却下</button>"
-    );
-  }
-  if (request.status === "approved") {
-    if (!state.authSession.owner) return "<div class=\"request-meta\">自動反映には管理者ログインが必要です。</div>";
-    return (
-      "<button type=\"button\" class=\"primary\" data-action=\"apply\" data-request-id=\"" + escapeHtml(request.id) + "\">承認済み案を自動反映</button>" +
-      "<button type=\"button\" class=\"ghost\" data-action=\"reject\" data-request-id=\"" + escapeHtml(request.id) + "\">却下へ変更</button>"
-    );
-  }
-  if (request.status === "applied") return "<div class=\"request-meta\">反映済みです。</div>";
-  if (request.status === "rejected") return "<div class=\"request-meta\">却下済みです。</div>";
-  return "";
-}
-
-function handleRequestAction(requestId, action) {
-  const request = state.requests.find((item) => item.id === requestId);
-  if (!request) return;
-  if (!state.authSession.owner) {
-    setStatus("requestStatus", "この操作には管理者ログインが必要です。", "danger");
-    return;
-  }
-  if (action === "approve" && request.status === "pending") {
-    request.status = "approved";
-    request.approvedAt = new Date().toISOString();
-    setStatus("requestStatus", "依頼を承認しました。次に自動反映を実行してください。", "ok");
-  } else if (action === "apply" && request.status === "approved") {
-    const applied = applyApprovedProposalToDraft(request);
-    if (!applied) {
-      setStatus("requestStatus", "自動反映に失敗しました。対象設定を確認してください。", "danger");
-    } else {
-      request.status = "applied";
-      request.appliedAt = new Date().toISOString();
-      setStatus("requestStatus", "承認後、自動で修正を反映しました。", "ok");
-    }
-  } else if (action === "reject" && request.status !== "applied") {
-    request.status = "rejected";
-    request.rejectedAt = new Date().toISOString();
-    setStatus("requestStatus", "依頼を却下しました。", "warn");
-  }
-  saveRequests();
-  renderRequests();
-}
-
-function applyApprovedProposalToDraft(request) {
-  if (!request || !CONTENT_TARGETS[request.target]) return false;
-  const targetDef = CONTENT_TARGETS[request.target];
-  const text = sanitizeText(request.proposedText, CONFIG.maxRequestBodyLength, true);
-  if (!text) return false;
-  state.contentOverrides[request.target] = text;
-  saveContentOverrides();
-  const node = document.getElementById(targetDef.id);
-  if (node) node.textContent = text;
-  return true;
-}
-
-function saveContentOverrides() {
-  localStorage.setItem(CONFIG.contentStorageKey, JSON.stringify(state.contentOverrides));
-}
-
-function loadContentOverrides() {
-  try {
-    const raw = localStorage.getItem(CONFIG.contentStorageKey);
-    state.contentOverrides = raw ? JSON.parse(raw) : {};
-  } catch (error) {
-    console.warn("content override load failed", error);
-    state.contentOverrides = {};
-  }
-}
-
-function applyContentOverrides() {
-  Object.keys(CONTENT_TARGETS).forEach((key) => {
-    const value = state.contentOverrides[key];
-    if (!value) return;
-    const def = CONTENT_TARGETS[key];
-    const node = document.getElementById(def.id);
-    if (node) node.textContent = value;
-  });
-}
-
-function processMessageImportFromUrl() {
-  const url = new URL(location.href);
-  const raw = url.searchParams.get("import");
-  if (!raw) return;
-  const imported = importMessagePayload(raw, "shared-link");
-  if (imported) {
-    setMode("professor");
-    setStatus("professorStatus", "共有リンクからメッセージを取り込みました。", "ok");
-  }
-  url.searchParams.delete("import");
-  history.replaceState({}, "", url.toString());
-}
-
-function importMessageFromRawString(raw) {
-  try {
-    if (raw.startsWith("http://") || raw.startsWith("https://")) {
-      const url = new URL(raw);
-      const token = url.searchParams.get("import");
-      if (!token) return false;
-      return importMessagePayload(token, "shared-link");
-    }
-    return importMessagePayload(raw, "manual-code");
-  } catch (error) {
-    console.warn(error);
-    return false;
-  }
-}
-
-function importMessagePayload(token, source) {
-  try {
-    if (!token || token.length > CONFIG.maxImportTokenLength) return false;
-    const payload = JSON.parse(decodeBase64Url(token));
-    if (!payload || !payload.message) return false;
-    const entry = {
-      id: payload.id || ("msg-" + Date.now().toString(36) + "-import"),
-      name: sanitizeText(payload.name || "匿名", CONFIG.maxNameLength),
-      affiliation: sanitizeText(payload.affiliation || "", CONFIG.maxAffiliationLength),
-      message: sanitizeText(payload.message, CONFIG.maxMessageLength, true),
-      source: source,
-      createdAt: payload.createdAt || new Date().toISOString(),
-      createdLabel: payload.createdLabel || formatDateTime(new Date(payload.createdAt || Date.now()))
-    };
-    if (!entry.message) return false;
-    addMessage(entry);
-    return true;
-  } catch (error) {
-    console.warn(error);
-    return false;
-  }
-}
-
-function buildMessageShareLink(entry) {
-  const payload = {
-    id: entry.id,
-    name: entry.name,
-    affiliation: entry.affiliation,
-    message: entry.message,
-    createdAt: entry.createdAt,
-    createdLabel: entry.createdLabel
-  };
-  const url = buildBaseUrl();
-  url.searchParams.set("mode", "professor");
-  const token = encodeBase64Url(JSON.stringify(payload));
-  url.searchParams.set("import", token);
-  const nextUrl = url.toString();
-  if (nextUrl.length > 1800) return "共有コード:\n" + token;
-  return nextUrl;
-}
-
-function bindWorkRefreshButton() {
-  document.getElementById("refreshWorksBtn").addEventListener("click", () => refreshPublications());
+function bindEvents() {
+  document.getElementById("refreshWorksBtn").addEventListener("click", refreshPublications);
 }
 
 function scheduleWorksRefresh() {
@@ -1206,192 +437,6 @@ function extractCrossrefYear(item) {
     if (parts && parts.length) return parts[0];
   }
   return "";
-}
-
-function initGoogleAuth() {
-  const configured = window.APP_CONFIG && window.APP_CONFIG.googleClientId;
-  state.googleClientId = sanitizeText(configured || "", 256, false);
-  if (!state.googleClientId) {
-    setStatus("authStatus", "Googleログインを使うには `config.js` に Google Client ID の設定が必要です。", "warn");
-    return;
-  }
-  if (!(window.google && google.accounts && google.accounts.id)) {
-    setStatus("authStatus", "GoogleログインSDKの読み込みに失敗しました。", "danger");
-    return;
-  }
-  try {
-    google.accounts.id.initialize({
-      client_id: state.googleClientId,
-      callback: handleGoogleCredentialResponse,
-      ux_mode: "popup",
-      auto_select: false
-    });
-    state.googleReady = true;
-    setStatus("authStatus", "Googleログインを利用できます。", "ok");
-  } catch (error) {
-    console.warn(error);
-    setStatus("authStatus", "Googleログイン初期化に失敗しました。", "danger");
-  }
-}
-
-function startGoogleLogin(intent) {
-  state.authIntent = intent;
-  if (!state.googleReady) {
-    setStatus("authStatus", "Googleログインが未設定です（Client ID確認）。", "danger");
-    return;
-  }
-  google.accounts.id.prompt();
-}
-
-function handleGoogleCredentialResponse(response) {
-  if (!response || !response.credential) {
-    setStatus("authStatus", "Googleログイン情報を取得できませんでした。", "danger");
-    return;
-  }
-  const payload = parseJwtPayload(response.credential);
-  if (!payload || !payload.email || payload.email_verified !== true) {
-    setStatus("authStatus", "Googleアカウントの検証に失敗しました。", "danger");
-    return;
-  }
-  const email = String(payload.email).toLowerCase();
-  const name = sanitizeText(payload.name || payload.email, 120, false);
-  if (state.authIntent === "professor") {
-    if (!isProfessorAccount(email)) {
-      setStatus("authStatus", "教授ログインは群馬大学の吉原教授アカウントのみ許可されています。", "danger");
-      return;
-    }
-    state.authSession.professor = true;
-    state.authSession.professorEmail = email;
-    state.authSession.name = name;
-    setStatus("authStatus", "教授アカウントでログインしました。", "ok");
-  } else if (state.authIntent === "owner") {
-    if (!isOwnerAccount(email)) {
-      setStatus("authStatus", "管理者ログイン権限がありません。", "danger");
-      return;
-    }
-    state.authSession.owner = true;
-    state.authSession.ownerEmail = email;
-    state.authSession.name = name;
-    setStatus("authStatus", "管理者としてログインしました。", "ok");
-  } else {
-    setStatus("authStatus", "ログイン用途が不明です。再度実行してください。", "warn");
-    return;
-  }
-  updateSessionIndicators();
-  renderRequests();
-}
-
-function isProfessorAccount(email) {
-  const parts = String(email || "").toLowerCase().split("@");
-  if (parts.length !== 2) return false;
-  const local = parts[0];
-  const domain = parts[1];
-  return domain === CONFIG.professorDomain && CONFIG.professorLocalPattern.test(local);
-}
-
-function isOwnerAccount(email) {
-  const normalized = String(email || "").toLowerCase();
-  if (!normalized) return false;
-  if (!state.ownerEmail) {
-    state.ownerEmail = normalized;
-    saveOwnerEmail(normalized);
-    return true;
-  }
-  return normalized === state.ownerEmail;
-}
-
-function loadOwnerEmail() {
-  return String(localStorage.getItem(CONFIG.ownerEmailStorageKey) || "").toLowerCase();
-}
-
-function saveOwnerEmail(email) {
-  const normalized = String(email || "").toLowerCase();
-  localStorage.setItem(CONFIG.ownerEmailStorageKey, normalized);
-}
-
-function parseJwtPayload(token) {
-  try {
-    const chunks = String(token || "").split(".");
-    if (chunks.length < 2) return null;
-    return JSON.parse(decodeBase64Url(chunks[1]));
-  } catch (error) {
-    console.warn(error);
-    return null;
-  }
-}
-
-function updateSessionIndicators() {
-  const chip = document.getElementById("sessionRoleChip");
-  if (state.authSession.owner) {
-    chip.textContent = "認証状態: 管理者ログイン中 (" + state.authSession.ownerEmail + ")";
-  } else if (state.authSession.professor) {
-    chip.textContent = "認証状態: 教授ログイン中 (" + state.authSession.professorEmail + ")";
-  } else {
-    chip.textContent = "認証状態: 未認証";
-  }
-  if (state.ownerEmail) {
-    setStatus("authStatus", "管理者アカウント: " + state.ownerEmail + "（初回登録済み）", "ok");
-  }
-}
-
-function formatRequestStatus(status) {
-  if (status === "pending") return "承認待ち";
-  if (status === "approved") return "承認済み";
-  if (status === "applied") return "適用済み";
-  if (status === "rejected") return "却下";
-  return status || "不明";
-}
-
-function formatPriority(priority) {
-  if (priority === "high") return "高";
-  if (priority === "medium") return "中";
-  if (priority === "low") return "低";
-  return "中";
-}
-
-function sanitizePriority(priority) {
-  if (priority === "high" || priority === "medium" || priority === "low") return priority;
-  return "medium";
-}
-
-function buildBaseUrl() {
-  const url = new URL(location.href);
-  url.searchParams.delete("import");
-  return url;
-}
-
-function downloadTextFile(filename, text, mime) {
-  const blob = new Blob([text], { type: mime + ";charset=utf-8" });
-  const href = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = href;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(href);
-}
-
-function csvEscape(value) {
-  const text = String(value == null ? "" : value);
-  if (/[",\n]/.test(text)) return "\"" + text.replace(/"/g, "\"\"") + "\"";
-  return text;
-}
-
-function sanitizeText(value, maxLength, allowMultiline) {
-  const raw = String(value == null ? "" : value).replace(/\u0000/g, "");
-  const normalized = allowMultiline ? raw.replace(/\r/g, "") : raw.replace(/[\r\n\t]/g, " ");
-  return normalized.trim().slice(0, maxLength);
-}
-
-function encodeBase64Url(text) {
-  return btoa(unescape(encodeURIComponent(text))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-}
-
-function decodeBase64Url(value) {
-  const token = String(value || "").trim();
-  const padded = token.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((token.length + 3) % 4);
-  return decodeURIComponent(escape(atob(padded)));
 }
 
 function setStatus(id, message, kind) {
