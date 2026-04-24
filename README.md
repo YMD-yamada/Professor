@@ -25,6 +25,27 @@
 
 - `https://<your-account>.github.io/<repository-name>/`
 
+## GitHubアカウント名を出さずに公開する（独自ドメイン）
+
+GitHub Pages のURL（`<your-account>.github.io`）を見せたくない場合は、独自ドメインを使います。
+このリポジトリには `CNAME.example` を追加してあります。
+
+### 手順（あなた側で必要）
+
+1. ドメインを取得（例: `lab-intro.jp`）
+2. DNSを設定
+   - サブドメイン運用（推奨）例: `www.lab-intro.jp`
+   - `CNAME` レコードを `ymd-yamada.github.io` に向ける
+3. このリポジトリのルートに `CNAME` ファイルを作成し、独自ドメインのみを1行で記載
+   - 例: `www.lab-intro.jp`
+4. GitHub の **Settings > Pages** で Custom domain に同じ値を設定
+5. 「Enforce HTTPS」を有効化
+
+### 補足
+
+- apexドメイン（`lab-intro.jp`）を使う場合は、DNSプロバイダごとの `A/ALIAS/ANAME` 設定が必要です。
+- 設定反映には数分〜最大48時間かかる場合があります。
+
 ## 運用方針
 
 - 第三者・教授で同一の利用体験（同一ページ）
